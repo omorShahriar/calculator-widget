@@ -205,6 +205,7 @@
           `;
       } else if (id === 'fleetNotes') {
         notesDiv.innerHTML = `
+        <div>
           <h3>Help Notes:</h3>
                <ol>
                  <li>Enter your total fleet size (i.e. number of buses in your current fleet).</li>
@@ -216,9 +217,12 @@
                  </li>
                  <li> Districts and Third Party Operators may apply for a greater number of vouchers within the first two (2) years of NYSBIP if they complete an approved Fleet Electrification Plan demonstrating Utility engagement for Charging Infrastructure design a timeline for receiving ESBs, and other requirements.</li>
                </ol>
+               </div>
+               <div>
                <em><strong>Disclaimer:</strong> This calculator is for illustrative purposes only and accuracy is not guaranteed. The figures shown can vary based
                  on your individual situation. NYSBIP rules are always subject to change and this calculator may not reflect that. Please
                  consult an expert before depending on these results.</em>
+                 </div>
           `;
       }
 
@@ -463,20 +467,24 @@
         margin-top:2rem;
         color: #14248A;
       }
-      #busNotes {
+      #busNotes,
+      #fleetNotes {
         font-size:1.4rem;
         padding:2rem;
         display:flex;
         flex-direction:column;
         gap:2rem;
       }
-       #busNotes>div h3 {
+       #busNotes>div h3,
+       #fleetNotes>div h3 {
         margin-bottom:1rem;
        }
-       #busNotes>div ol{
+       #busNotes>div ol,
+       #fleetNotes>div ol {
         padding-left:2rem;
        }
-      #busFooter {
+      #busFooter,
+      #fleetFooter {
         font-size:1.4rem;
         padding:1rem;
         text-align:center;
@@ -484,7 +492,8 @@
         color:white;
 
       }
-      #busFooter a {
+      #busFooter a,
+      #fleetFooter a {
         text-decoration:underline;
         color:white;
       }
@@ -499,7 +508,8 @@
           flex-basis:45%;
           flex:1;
         }
-        .tabcontent.active #busFooter{
+        .tabcontent.active #busFooter,
+        .tabcontent.active #fleetFooter {
           width:100%;
         }
       }
