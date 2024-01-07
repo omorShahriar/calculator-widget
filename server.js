@@ -5,6 +5,9 @@ const url = require('url');
 
 const server = http.createServer((req, res) => {
     const parsedUrl = url.parse(req.url, true);
+    if (parsedUrl.pathname === '/') {
+        res.end('Hello World');
+    }
     if (parsedUrl.pathname === '/script.js') {
         const apiKey = parsedUrl.query.key;
         if (!apiKey) {
