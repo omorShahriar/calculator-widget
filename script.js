@@ -368,7 +368,8 @@
 
       }
       html{
-        font-size:10px;
+        font-family: ${styleConfig.fontFamily};
+        font-size:${styleConfig.fontSize};
       }
       .header{
         margin-bottom:2rem;
@@ -397,7 +398,7 @@
         width:40%;
         font-size: 12px;
         border:1px solid black;
-        background: #14248A;
+        background: ${styleConfig.primaryColor};
         color:white;
         border-radius:4px;
         padding:1rem;
@@ -413,7 +414,7 @@
       }
       
       fieldset {
-        border: 4px solid #14248A;
+        border: 4px solid ${styleConfig.primaryColor};
         border-radius: 4px;
         padding: 1rem;
         display:flex;
@@ -424,14 +425,14 @@
       legend {
         font-size: 1.8rem;
         font-weight: medium;
-        color: #14248A;
+        color: ${styleConfig.primaryColor};
         padding: 0 0.5rem;
       }
       hr{
-        border:1px solid #14248A;
+        border:1px solid ${styleConfig.primaryColor};
       }
       input {
-        border: 1px solid #14248A;
+        border: 1px solid ${styleConfig.primaryColor};
         border-radius: 4px;
         padding: 0.5rem;
       }
@@ -446,7 +447,7 @@
         width:100%;
         padding:1rem;
         border:1px solid black;
-        background: #14248A;
+        background: ${styleConfig.primaryColor};
         color:white;
         border-radius:4px;
         font-size:1.6rem;
@@ -465,7 +466,7 @@
         font-size:1.8rem;
         font-weight: medium;
         margin-top:2rem;
-        color: #14248A;
+        color: ${styleConfig.primaryColor};
       }
       #busNotes,
       #fleetNotes {
@@ -488,7 +489,7 @@
         font-size:1.4rem;
         padding:1rem;
         text-align:center;
-        background-color:#14248A;
+        background-color:${styleConfig.primaryColor};
         color:white;
 
       }
@@ -498,6 +499,11 @@
         color:white;
       }
       @media screen and (min-width: 768px) {
+        .tab .tablinks{
+
+          font-size: 20px;
+         
+        }
         .tabcontent.active {
           flex-direction: row;
           flex-wrap:wrap;
@@ -527,5 +533,4 @@
     document.head.appendChild(styleElement);
   }
   window.onload = initializeWidget;
-
 })();

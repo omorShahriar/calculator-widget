@@ -24,7 +24,7 @@ app.get('/script.js', asyncHandler(async function (req, res, next) {
 
     try {
         const { data } = await axios.get(apiUrl);
-        if (!data) {
+        if (!!data) {
             console.log('Error: API returned false')
             res.status(401).json({ msg: 'Error: API returned false' });
         } else {
