@@ -29,12 +29,15 @@
 
     // Get all elements with class="tablinks" and remove the class "active"
     tablinks = document.getElementsByClassName("tablinks");
+    var tabcontents = document.getElementsByClassName("tabcontent");
     for (i = 0; i < tablinks.length; i++) {
       tablinks[i].className = tablinks[i].className.replace(" active", "");
+      tabcontents[i].className = tabcontents[i].className.replace(" active", "");
     }
 
     // Show the current tab, and add an "active" class to the button that opened the tab
     document.getElementById(taskName).style.display = "flex";
+    document.getElementById(taskName).className += " active";
     evt.currentTarget.className += " active";
   }
 
@@ -178,6 +181,7 @@
       notesDiv.id = `${id}`;
       if (id === 'busNotes') {
         notesDiv.innerHTML = `
+        <div>
           <h3>Help Notes:</h3>
                <ol>
                  <li>Choose either a new bus or a repower of your existing vehicle. Only the vehicle types shown are covered.</li>
@@ -192,9 +196,12 @@
                  <li>If your new bus (or repower) has the V2G (Vehicle to Grid) feature you are eligible for additional money.</li>
                  <li>If your new bus has a wheelchair, you are eligible for additional money. Repowers are not eligible</li>
                </ol>
+               </div>
+               <div>
                <em><strong>Disclaimer:</strong> This calculator is for illustrative purposes only and accuracy is not guaranteed. The figures shown can vary based
                  on your individual situation. NYSBIP rules are always subject to change and this calculator may not reflect that. Please
                  consult an expert before depending on these results.</em>
+                 </div>
           `;
       } else if (id === 'fleetNotes') {
         notesDiv.innerHTML = `
@@ -290,11 +297,32 @@
     const fleetCalcButton = `<button id="fleetCalcButton" onclick="calculateFleet()">Calculate</button>`;
     fleetCapsSection.innerHTML += fleetCalcButton;
     const fleetCapsSummarySection = createSummarySection('summaryFleet', 'RESULTS', `
-      <p>Base Cap: </p><span>$</span><span class="voucher" id="baseCap">-</span>
-      <p>Priority District Bonus: </p><span>$</span><span class="voucher" id="priorityDistrictBonusFleet">-</span>
-      <p>Fleet Electrification Plan Bonus: </p><span>$</span><span class="voucher" id="electrificationBonus">-</span>
-      <hr>
-      <p>Total # of Bus Vouchers Eligible: </p><span>$</span><span class="voucher" id="totalCap">-</span>
+    <div> 
+      <p>Base Cap: </p>
+      <div><span>$</span><span class="voucher" id="baseCap">-</span></div>
+    </div>
+     
+
+      <div>    
+        <p>Priority District Bonus:</p>
+        <div>
+          <span>$</span><span class="voucher" id="priorityDistrictBonusFleet">-</span>
+       </div>
+      </div>
+
+
+    <div> 
+      <p>Fleet Electrification Plan Bonus: 
+      <div>
+        </p><span>$</span><span class="voucher" id="electrificationBonus">-</span> 
+      </div>
+    </div>
+  
+    <hr>
+    <div>
+      <p>Total # of Bus Vouchers Eligible: <div></p><span>$</span><span class="voucher" id="totalCap">-</span></div></div>
+  
+     
       `);
     const fleetCapsNotesSection = createHelpNotesSection('fleetNotes');
     const fleetCapsFooter = createFooter('fleet');
@@ -345,7 +373,7 @@
           display: none;
       }
       #busCalculator {
-        max-width: 800px;
+        max-width: 1400px;
         margin:0 auto;
         padding: 1rem;
       }
@@ -365,7 +393,8 @@
         width:40%;
         font-size: 12px;
         border:1px solid black;
-        background: lightblue;
+        background: #14248A;
+        color:white;
         border-radius:4px;
         padding:1rem;
       }
@@ -380,7 +409,7 @@
       }
       
       fieldset {
-        border: 1px solid black;
+        border: 4px solid #14248A;
         border-radius: 4px;
         padding: 1rem;
         display:flex;
@@ -391,6 +420,16 @@
       legend {
         font-size: 1.8rem;
         font-weight: medium;
+        color: #14248A;
+        padding: 0 0.5rem;
+      }
+      hr{
+        border:1px solid #14248A;
+      }
+      input {
+        border: 1px solid #14248A;
+        border-radius: 4px;
+        padding: 0.5rem;
       }
       #inputs div,
       #inputsFleet div {
@@ -403,7 +442,8 @@
         width:100%;
         padding:1rem;
         border:1px solid black;
-        background: lightblue;
+        background: #14248A;
+        color:white;
         border-radius:4px;
         font-size:1.6rem;
       }
@@ -421,20 +461,48 @@
         font-size:1.8rem;
         font-weight: medium;
         margin-top:2rem;
+        color: #14248A;
       }
       #busNotes {
         font-size:1.4rem;
         padding:2rem;
+        display:flex;
+        flex-direction:column;
+        gap:2rem;
       }
+       #busNotes>div h3 {
+        margin-bottom:1rem;
+       }
+       #busNotes>div ol{
+        padding-left:2rem;
+       }
       #busFooter {
         font-size:1.4rem;
-        padding:2rem;
+        padding:1rem;
         text-align:center;
+        background-color:#14248A;
+        color:white;
+
       }
+      #busFooter a {
+        text-decoration:underline;
+        color:white;
+      }
+      @media screen and (min-width: 768px) {
+        .tabcontent.active {
+          flex-direction: row;
+          flex-wrap:wrap;
 
-  
-
-
+        }
+        #inputs,#summary,
+        #inputsFleet,#summaryFleet {
+          flex-basis:45%;
+          flex:1;
+        }
+        .tabcontent.active #busFooter{
+          width:100%;
+        }
+      }
       `
     const styleElement = document.createElement('style');
 
