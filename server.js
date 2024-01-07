@@ -8,7 +8,7 @@ const server = http.createServer((req, res) => {
     if (parsedUrl.pathname === '/') {
         res.end('Hello World');
     }
-    if (parsedUrl.pathname === '/script.js') {
+    else if (parsedUrl.pathname === '/script.js') {
         const apiKey = parsedUrl.query.key;
         if (!apiKey) {
             res.writeHead(400);
