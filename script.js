@@ -125,22 +125,9 @@
   }
 
   async function initializeWidget() {
-<<<<<<< HEAD
     generateBusCalculator();
     await getBusTypes();
     attachResetEventListeners();
-=======
-    const isValidCustomer = true;
-    if (isValidCustomer) {
-      // If the customer is valid, fetch bus types
-      generateBusCalculator();
-      const busVoucherButton = document.getElementById('busVoucherButton');
-      busVoucherButton.classList.add('active');
-      await getBusTypes();
-    } else {
-      alert('Invalid customer. Please contact support.');
-    }
->>>>>>> main
   }
 
   function generateBusCalculator() {
@@ -350,22 +337,14 @@
     const fleetCapsSummarySection = createSummarySection('summaryFleet', 'RESULTS', `
     <div> 
       <p>Base Cap: </p>
-<<<<<<< HEAD
       <div><span>$</span><span class="voucher voucherFleet" id="baseCap">-</span></div>
-=======
-      <div><span class="voucher" id="baseCap">-</span></div>
->>>>>>> main
     </div>
      
 
       <div>    
         <p>Priority District Bonus:</p>
         <div>
-<<<<<<< HEAD
           <span>$</span><span class="voucher voucherFleet" id="priorityDistrictBonusFleet">-</span>
-=======
-          <span class="voucher" id="priorityDistrictBonusFleet">-</span>
->>>>>>> main
        </div>
       </div>
 
@@ -373,21 +352,13 @@
     <div> 
       <p>Fleet Electrification Plan Bonus: 
       <div>
-<<<<<<< HEAD
         </p><span>$</span><span class="voucher voucherFleet" id="electrificationBonus">-</span> 
-=======
-        </p><span class="voucher" id="electrificationBonus">-</span> 
->>>>>>> main
       </div>
     </div>
   
     <hr>
     <div>
-<<<<<<< HEAD
       <p>Total # of Bus Vouchers Eligible: <div></p><span>$</span><span class="voucher voucherFleet" id="totalCap">-</span></div></div>
-=======
-      <p>Total # of Bus Vouchers Eligible: <div></p><span class="voucher" id="totalCap">-</span></div></div>
->>>>>>> main
   
      
       `);
