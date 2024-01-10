@@ -63,7 +63,7 @@
     const purchasePrice = document.getElementById('purchasePrice').value;
     const vouchers = document.getElementsByClassName('voucherBus');
     for (let i = 0; i < Object.keys(vouchers).length; i++) {
-      const key = String(i); 
+      const key = String(i);
       const value = vouchers[key];
 
       value.innerText = 'Calculating';
