@@ -17,17 +17,31 @@
     }
   }
 
+  function attachResetEventListeners() {
+    const inputs = document.querySelectorAll('input');
+    const selects = document.querySelectorAll('select');
+
+    function handleInputChange() {
+      reset();
+    }
+
+    inputs.forEach((input) => {
+      input.addEventListener('input', handleInputChange);
+    });
+
+    selects.forEach((select) => {
+      select.addEventListener('input', handleInputChange);
+    });
+  }
+
   function openTab(evt, taskName) {
-    // Declare all variables
     var i, tabcontent, tablinks;
 
-    // Get all elements with class="tabcontent" and hide them
     tabcontent = document.getElementsByClassName("tabcontent");
     for (i = 0; i < tabcontent.length; i++) {
       tabcontent[i].style.display = "none";
     }
 
-    // Get all elements with class="tablinks" and remove the class "active"
     tablinks = document.getElementsByClassName("tablinks");
     var tabcontents = document.getElementsByClassName("tabcontent");
     for (i = 0; i < tablinks.length; i++) {
@@ -35,7 +49,6 @@
       tabcontents[i].className = tabcontents[i].className.replace(" active", "");
     }
 
-    // Show the current tab, and add an "active" class to the button that opened the tab
     document.getElementById(taskName).style.display = "flex";
     document.getElementById(taskName).className += " active";
     evt.currentTarget.className += " active";
@@ -48,6 +61,13 @@
     const v2g = document.getElementById('v2gFeature').checked;
     const wheelchair = document.getElementById('wheelchair').checked;
     const purchasePrice = document.getElementById('purchasePrice').value;
+    const vouchers = document.getElementsByClassName('voucherBus');
+    for (let i = 0; i < Object.keys(vouchers).length; i++) {
+      const key = String(i); 
+      const value = vouchers[key];
+
+      value.innerText = 'Calculating';
+    }
     let data;
     try {
       const response = await fetch(`https://x8ki-letl-twmt.n7.xano.io/api:AcokRRGS/calc-voucher?bus_id=${busId}&priority-district=${priorityDistrict}&scrappage=${scrappage}&v2g=${v2g}&wheelchair=${wheelchair}&purchase_price=${purchasePrice}`);
@@ -56,16 +76,16 @@
       console.log(error);
     }
     // Update the summary fields
-    document.getElementById('baseVoucher').innerText = data.voucher.base_voucher;
-    document.getElementById('priorityDistrictBonus').innerText = data.voucher.prioritydistrict;
-    document.getElementById('scrappageBonus').innerText = data.voucher.scrappage;
-    document.getElementById('v2gAddOn').innerText = data.voucher.v2g;
-    document.getElementById('wheelchairAddOn').innerText = data.voucher.wheelchair;
-    document.getElementById('totalVoucher').innerText = data.voucher.total;
+    document.getElementById('baseVoucher').innerText = data.voucher.base_voucher.toLocaleString();
+    document.getElementById('priorityDistrictBonus').innerText = data.voucher.prioritydistrict.toLocaleString();
+    document.getElementById('scrappageBonus').innerText = data.voucher.scrappage.toLocaleString();
+    document.getElementById('v2gAddOn').innerText = data.voucher.v2g.toLocaleString();
+    document.getElementById('wheelchairAddOn').innerText = data.voucher.wheelchair.toLocaleString();
+    document.getElementById('totalVoucher').innerText = data.voucher.total.toLocaleString();
 
-    document.getElementById('finalPurchasePrice').innerText = data.summary.purchase_price;
-    document.getElementById('actualVoucher').innerText = data.summary.total_voucher;
-    document.getElementById('outOfPocket').innerText = data.summary.out_of_pocket;
+    document.getElementById('finalPurchasePrice').innerText = data.summary.purchase_price.toLocaleString();
+    document.getElementById('actualVoucher').innerText = data.summary.total_voucher.toLocaleString();
+    document.getElementById('outOfPocket').innerText = data.summary.out_of_pocket.toLocaleString();
 
   }
 
@@ -73,7 +93,13 @@
     const priorityDistrictFleet = document.getElementById('priorityDistrictFleet').checked;
     const electrification = document.getElementById('electrification').checked;
     const fleetSize = document.getElementById('fleetSize').value;
+    const vouchers = document.getElementsByClassName('voucherFleet');
+    for (let i = 0; i < Object.keys(vouchers).length; i++) {
+      const key = String(i);
+      const value = vouchers[key];
 
+      value.innerText = 'Calculating';
+    }
     let data;
     try {
       const response = await fetch(`https://x8ki-letl-twmt.n7.xano.io/api:AcokRRGS/calc-fleet-cap?fleet-size=${fleetSize}&priority-district=${priorityDistrictFleet}&electrification-plan=${electrification}`)
@@ -82,14 +108,28 @@
     } catch (error) {
       console.log(error);
     }
-    document.getElementById('baseCap').innerText = data["base-cap"];
-    document.getElementById('priorityDistrictBonusFleet').innerText = data["bonus-prioritydistrict"];
-    document.getElementById('electrificationBonus').innerText = data["bonus-electrification-plan"]
-    document.getElementById('totalCap').innerText = data["voucher-cap"];
+    document.getElementById('baseCap').innerText = data["base-cap"].toLocaleString();
+    document.getElementById('priorityDistrictBonusFleet').innerText = data["bonus-prioritydistrict"].toLocaleString();
+    document.getElementById('electrificationBonus').innerText = data["bonus-electrification-plan"].toLocaleString();
+    document.getElementById('totalCap').innerText = data["voucher-cap"].toLocaleString();
   }
 
+  window.reset = async function reset() {
+    const vouchers = document.getElementsByClassName('voucher');
+    for (let i = 0; i < Object.keys(vouchers).length; i++) {
+      const key = String(i);
+      const value = vouchers[key];
+
+      value.innerText = '0';
+    }
+  }
 
   async function initializeWidget() {
+<<<<<<< HEAD
+    generateBusCalculator();
+    await getBusTypes();
+    attachResetEventListeners();
+=======
     const isValidCustomer = true;
     if (isValidCustomer) {
       // If the customer is valid, fetch bus types
@@ -100,6 +140,7 @@
     } else {
       alert('Invalid customer. Please contact support.');
     }
+>>>>>>> main
   }
 
   function generateBusCalculator() {
@@ -111,6 +152,7 @@
 
       const input = document.createElement(inputType === 'select' ? 'select' : 'input');
       input.id = inputId;
+
 
       if (inputType === 'select') {
         options.forEach((option) => {
@@ -260,40 +302,42 @@
     const busVoucherSection = createInputSection('inputs', 'INPUTS', busVoucherInputs, 'busCalcButton');
     const busCalcButton = `<button id="busCalcButton" onclick="calculateVoucher()">Calculate</button>`;
     busVoucherSection.innerHTML += busCalcButton;
+    const inputs = document.getElementsByTagName("input");
+    console.log(inputs);
     const busVoucherSummarySection = createSummarySection('summary', 'RESULTS', `
       <div> 
         <p>Base Voucher: </p>
-        <div><span>$</span><span class="voucher" id="baseVoucher">-</span></div>
+        <div><span>$</span><span class="voucher voucherBus" id="baseVoucher">-</span></div>
       </div>
       <div>
         <p>Priority District Bonus: </p>
         <div>
-          <span>$</span><span class="voucher" id="priorityDistrictBonus">-</span>   
+          <span>$</span><span class="voucher voucherBus" id="priorityDistrictBonus">-</span>   
         </div>
       </div>
-      <div> <p>Scrappage Bonus: </p><div><span>$</span><span class="voucher" id="scrappageBonus">-</span></div> </div>
+      <div> <p>Scrappage Bonus: </p><div><span>$</span><span class="voucher voucherBus" id="scrappageBonus">-</span></div> </div>
       <div><p>V2G Add-On: </p>
-<div><span>$</span><span class="voucher" id="v2gAddOn">-</span></div> </div>
-      <div>  <p>Wheelchair Add-On: </p><div><span>$</span><span class="voucher" id="wheelchairAddOn">-</span></div> </div>
+<div><span>$</span><span class="voucher voucherBus" id="v2gAddOn">-</span></div> </div>
+      <div>  <p>Wheelchair Add-On: </p><div><span>$</span><span class="voucher voucherBus" id="wheelchairAddOn">-</span></div> </div>
       <hr>
       <div>
         <p>Total Possible NYSBIP Voucher: </p>
-        <div><span>$</span><span class="voucher" id="totalVoucher">-</span></div>
+        <div><span>$</span><span class="voucher voucherBus" id="totalVoucher">-</span></div>
       </div>
 
      <h2 id="final-summary">SUMMARY</h2>
       <div> 
         <p>Bus Purchase Price: </p>
-        <div><span>$</span><span class="voucher" id="finalPurchasePrice">-</span></div>
+        <div><span>$</span><span class="voucher voucherBus" id="finalPurchasePrice">-</span></div>
       </div>
       <div>
         <p>Actual NYSPIB Voucher: </p>
-        <div><span>$</span><span class="voucher" id="actualVoucher">-</span></div>
+        <div><span>$</span><span class="voucher voucherBus" id="actualVoucher">-</span></div>
       </div>
       <hr>
       <div>
         <p>Your Out of Pocket: </p>
-        <div><span>$</span><span class="voucher" id="outOfPocket">-</span></div>
+        <div><span>$</span><span class="voucher voucherBus" id="outOfPocket">-</span></div>
       </div>
 
         `);
@@ -306,14 +350,22 @@
     const fleetCapsSummarySection = createSummarySection('summaryFleet', 'RESULTS', `
     <div> 
       <p>Base Cap: </p>
+<<<<<<< HEAD
+      <div><span>$</span><span class="voucher voucherFleet" id="baseCap">-</span></div>
+=======
       <div><span class="voucher" id="baseCap">-</span></div>
+>>>>>>> main
     </div>
      
 
       <div>    
         <p>Priority District Bonus:</p>
         <div>
+<<<<<<< HEAD
+          <span>$</span><span class="voucher voucherFleet" id="priorityDistrictBonusFleet">-</span>
+=======
           <span class="voucher" id="priorityDistrictBonusFleet">-</span>
+>>>>>>> main
        </div>
       </div>
 
@@ -321,13 +373,21 @@
     <div> 
       <p>Fleet Electrification Plan Bonus: 
       <div>
+<<<<<<< HEAD
+        </p><span>$</span><span class="voucher voucherFleet" id="electrificationBonus">-</span> 
+=======
         </p><span class="voucher" id="electrificationBonus">-</span> 
+>>>>>>> main
       </div>
     </div>
   
     <hr>
     <div>
+<<<<<<< HEAD
+      <p>Total # of Bus Vouchers Eligible: <div></p><span>$</span><span class="voucher voucherFleet" id="totalCap">-</span></div></div>
+=======
       <p>Total # of Bus Vouchers Eligible: <div></p><span class="voucher" id="totalCap">-</span></div></div>
+>>>>>>> main
   
      
       `);
