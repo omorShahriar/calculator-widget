@@ -394,6 +394,9 @@
       .tab{
         display:flex;
         gap:.5em;
+        position:relative;
+        top:3px;
+        z-index:10;
       }
       .tab .tablinks{
         max-width:fit-content;
@@ -402,14 +405,17 @@
         color:black;
         background:transparent;
         border-radius:1.2em;
-        
+        border-bottom:0;
+        border-bottom-left-radius:0;
+        border-bottom-right-radius:0;
         padding:1rem;
       }
       .tablinks.active{
         border-bottom-left-radius:0px;
         border-bottom-right-radius:0px;
-        border-bottom-color:transparent;
+      
         background-color:${styleConfig.bgColor};
+        border-bottom:4px solid ${styleConfig.bgColor};
         color: ${styleConfig.primaryColor};
       }
       
@@ -420,9 +426,7 @@
         padding:1.6em;
         background-color: ${styleConfig.bgColor};
         border: 2px solid ${styleConfig.primaryColor};
-        position:relative;
-        z-index:-10;
-        margin-top:-2px;
+      
         border-radius:1.2em;
         border-top-left-radius:0;
       }
@@ -454,6 +458,7 @@
         border: 1px solid ${styleConfig.primaryColor};
         border-radius: 1.2em;
         padding: 0.5em;
+        background:white;
       }
       #inputs div,
       #inputsFleet div {
