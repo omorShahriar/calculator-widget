@@ -125,12 +125,26 @@
   }
 
   async function initializeWidget() {
+<<<<<<< HEAD
     generateBusCalculator();
     await getBusTypes();
     attachResetEventListeners();
+=======
+    const isValidCustomer = true;
+    if (isValidCustomer) {
+      // If the customer is valid, fetch bus types
+      generateBusCalculator();
+      const busVoucherButton = document.getElementById('busVoucherButton');
+      busVoucherButton.classList.add('active');
+      await getBusTypes();
+    } else {
+      alert('Invalid customer. Please contact support.');
+    }
+>>>>>>> main
   }
 
   function generateBusCalculator() {
+
     const createInputElement = (labelText, inputId, inputType, options = []) => {
       const label = document.createElement('label');
       label.textContent = labelText;
@@ -219,8 +233,8 @@
                  <li>Enter the manufacturer's full purchase price, including all options and fees.</li>
                  <li>A bonus is available if your bus is operated in a Priority District. Priority Districts include SED-designated High Need/Resource Capacity districts and districts that serve Disadvantaged Communities (DACs). This bonus may also apply for school buses that are stored in an existing depot that is situated in a DAC.
                    <ul>
-                     <li><a href="#">Click here</a> for a list of Priority Districts</li>
-                     <li><a href="#">Click here</a> for a map of DACs (Disadvantaged Communities)</li>
+                     <li><a href="https://www.nyserda.ny.gov/-/media/Project/Nyserda/Files/Programs/Electric-School-Bus/NYSBIP-Priority-district-list.pdf" target="_blank">Click here</a> for a list of Priority Districts</li>
+                     <li><a href="https://www.nyserda.ny.gov/ny/disadvantaged-communities" target="_blank">Click here</a> for a map of DACs (Disadvantaged Communities)</li>
                    </ul>
                  </li>
                  <li>If you scrap an eligible bus you can receive additional funds. Applies only to new buses and not repowers.</li>
@@ -242,8 +256,8 @@
                  <li>Enter your total fleet size (i.e. number of buses in your current fleet).</li>
                  <li>A bonus is available if your bus is operated in a Priority District. Priority Districts include SED-designated High Need/Resource Capacity districts and districts that serve Disadvantaged Communities (DACs). This bonus may also apply for school buses that are stored in an existing depot that is situated in a DAC.
                    <ul>
-                     <li><a href="#">Click here</a> for a list of Priority Districts</li>
-                     <li><a href="#">Click here</a> for a map of DACs (Disadvantaged Communities)</li>
+                     <li><a href="https://www.nyserda.ny.gov/-/media/Project/Nyserda/Files/Programs/Electric-School-Bus/NYSBIP-Priority-district-list.pdf" target="_blank">Click here</a> for a list of Priority Districts</li>
+                     <li><a href="https://www.nyserda.ny.gov/ny/disadvantaged-communities" target="_blank">Click here</a> for a map of DACs (Disadvantaged Communities)</li>
                    </ul>
                  </li>
                  <li> Districts and Third Party Operators may apply for a greater number of vouchers within the first two (2) years of NYSBIP if they complete an approved Fleet Electrification Plan demonstrating Utility engagement for Charging Infrastructure design a timeline for receiving ESBs, and other requirements.</li>
@@ -264,7 +278,7 @@
       const footer = document.createElement('footer');
       footer.id = `${id}Footer`;
       footer.innerHTML = `
-          <em>Provided by <a href="#">Spectative LLC</a></em>
+          <em>Provided by <a href="http://www.spectivate.com" target="_blank">Spectivate LLC</a></em>
         `;
 
       return footer;
@@ -336,14 +350,22 @@
     const fleetCapsSummarySection = createSummarySection('summaryFleet', 'RESULTS', `
     <div> 
       <p>Base Cap: </p>
+<<<<<<< HEAD
       <div><span>$</span><span class="voucher voucherFleet" id="baseCap">-</span></div>
+=======
+      <div><span class="voucher" id="baseCap">-</span></div>
+>>>>>>> main
     </div>
      
 
       <div>    
         <p>Priority District Bonus:</p>
         <div>
+<<<<<<< HEAD
           <span>$</span><span class="voucher voucherFleet" id="priorityDistrictBonusFleet">-</span>
+=======
+          <span class="voucher" id="priorityDistrictBonusFleet">-</span>
+>>>>>>> main
        </div>
       </div>
 
@@ -351,13 +373,21 @@
     <div> 
       <p>Fleet Electrification Plan Bonus: 
       <div>
+<<<<<<< HEAD
         </p><span>$</span><span class="voucher voucherFleet" id="electrificationBonus">-</span> 
+=======
+        </p><span class="voucher" id="electrificationBonus">-</span> 
+>>>>>>> main
       </div>
     </div>
   
     <hr>
     <div>
+<<<<<<< HEAD
       <p>Total # of Bus Vouchers Eligible: <div></p><span>$</span><span class="voucher voucherFleet" id="totalCap">-</span></div></div>
+=======
+      <p>Total # of Bus Vouchers Eligible: <div></p><span class="voucher" id="totalCap">-</span></div></div>
+>>>>>>> main
   
      
       `);
@@ -400,74 +430,95 @@
           box-sizing:border-box;
 
       }
-      html{
+      
+      #busCalculator{
+        max-width: ${styleConfig.containerMaxSize};
+        margin:0 auto;
+        padding: 1em;
         font-family: ${styleConfig.fontFamily};
         font-size:${styleConfig.fontSize};
       }
-      .header{
-        margin-bottom:2rem;
-      }
+     
       .hidden {
           display: none;
       }
-      #busCalculator {
-        max-width: 1400px;
-        margin:0 auto;
-        padding: 1rem;
-      }
+
       #heading {
-        font-size: 3rem;
+        font-size: 3em;
         text-align: center;
-        margin: 0;
-        padding: 0;
-      }
-      .tab{
-        margin:8px 0;
-        display:flex;
-        justify-content: space-around;
-        gap:4px;
-      }
-      .tab .tablinks{
-        width:40%;
-        font-size: 12px;
-        border:1px solid black;
+        margin-bottom: 1.6em;
+        padding: 1em;
         background: ${styleConfig.primaryColor};
         color:white;
-        border-radius:4px;
+      }
+      .tab{
+        display:flex;
+        gap:.5em;
+        position:relative;
+        top:3px;
+        z-index:10;
+      }
+      .tab .tablinks{
+        max-width:fit-content;
+        font-size: 1.2em;
+        border:2px solid ${styleConfig.primaryColor};
+        color:black;
+        background:transparent;
+        border-radius:1.2em;
+        border-bottom:0;
+        border-bottom-left-radius:0;
+        border-bottom-right-radius:0;
         padding:1rem;
       }
+      .tablinks.active{
+        border-bottom-left-radius:0px;
+        border-bottom-right-radius:0px;
+      
+        background-color:${styleConfig.bgColor};
+        border-bottom:4px solid ${styleConfig.bgColor};
+        color: ${styleConfig.primaryColor};
+      }
+      
       .tabcontent {
         display:none;
         flex-direction: column;
         gap:1rem;
+        padding:1.6em;
+        background-color: ${styleConfig.bgColor};
+        border: 2px solid ${styleConfig.primaryColor};
+      
+        border-radius:1.2em;
+        border-top-left-radius:0;
       }
       .tabcontent.active {
         display:flex;
         flex-direction: column;
       }
       
-      fieldset {
-        border: 4px solid ${styleConfig.primaryColor};
-        border-radius: 4px;
-        padding: 1rem;
+      #busCalculator fieldset {
+        border: 2px solid ${styleConfig.primaryColor};
+        border-radius: 1.2em;
+        padding: 1em;
         display:flex;
         flex-direction:column;
         gap:1.5rem;
-        font-size:1.6rem;
+        font-size:1.6em;
       }
-      legend {
-        font-size: 1.8rem;
+      #busCalculator legend {
+        font-size: 1.2em;
         font-weight: medium;
         color: ${styleConfig.primaryColor};
-        padding: 0 0.5rem;
+        padding:0 0.8em;
+        margin:0 auto;
       }
-      hr{
+      #busCalculator hr{
         border:1px solid ${styleConfig.primaryColor};
       }
-      input {
+      #busCalculator input {
         border: 1px solid ${styleConfig.primaryColor};
-        border-radius: 4px;
-        padding: 0.5rem;
+        border-radius: 1.2em;
+        padding: 0.5em;
+        background:white;
       }
       #inputs div,
       #inputsFleet div {
@@ -477,18 +528,20 @@
       }
       #inputs button,
       #inputsFleet button{
-        width:100%;
-        padding:1rem;
-        border:1px solid black;
+        max-width:fit-content;
+        margin:0 auto;
+        padding:0.5em;
+        border:1px solid transparent;
         background: ${styleConfig.primaryColor};
         color:white;
-        border-radius:4px;
-        font-size:1.6rem;
+        border-radius:1.2em;
+        font-size:1.2em;
+        
       }
       #calculations {
         display:flex;
         flex-direction:column;
-        gap:1rem;
+        gap:0.4em;
       }
       #calculations>div{
         display:flex;
@@ -496,31 +549,30 @@
         align-items:center;
       }
       #final-summary{
-        font-size:1.8rem;
+        font-size:1.2em;
         font-weight: medium;
-        margin-top:2rem;
+        margin-top:2em;
         color: ${styleConfig.primaryColor};
       }
       #busNotes,
       #fleetNotes {
-        font-size:1.4rem;
-        padding:2rem;
+        font-size:1.2em;
+        padding:2em;
         display:flex;
         flex-direction:column;
         gap:2rem;
       }
        #busNotes>div h3,
        #fleetNotes>div h3 {
-        margin-bottom:1rem;
+        margin-bottom:1.6em;
        }
        #busNotes>div ol,
        #fleetNotes>div ol {
-        padding-left:2rem;
+        padding-left:2em;
        }
       #busFooter,
       #fleetFooter {
-        font-size:1.4rem;
-        padding:1rem;
+        padding:1em;
         text-align:center;
         background-color:${styleConfig.primaryColor};
         color:white;
@@ -533,14 +585,12 @@
       }
       @media screen and (min-width: 768px) {
         .tab .tablinks{
-
-          font-size: 20px;
-         
+          font-size: 2em;
         }
         .tabcontent.active {
           flex-direction: row;
           flex-wrap:wrap;
-
+          padding:2em;
         }
         #inputs,#summary,
         #inputsFleet,#summaryFleet {
