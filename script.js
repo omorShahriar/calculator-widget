@@ -61,13 +61,8 @@
     const v2g = document.getElementById('v2gFeature').checked;
     const wheelchair = document.getElementById('wheelchair').checked;
     const purchasePrice = document.getElementById('purchasePrice').value;
-    const vouchers = document.getElementsByClassName('voucherBus');
-    for (let i = 0; i < Object.keys(vouchers).length; i++) {
-      const key = String(i);
-      const value = vouchers[key];
-
-      value.innerText = 'Calculating';
-    }
+    const button = document.getElementById('busCalcButton');
+    button.innerText = "Calculating..."
     let data;
     try {
       const response = await fetch(`https://x8ki-letl-twmt.n7.xano.io/api:AcokRRGS/calc-voucher?bus_id=${busId}&priority-district=${priorityDistrict}&scrappage=${scrappage}&v2g=${v2g}&wheelchair=${wheelchair}&purchase_price=${purchasePrice}`);
@@ -86,20 +81,15 @@
     document.getElementById('finalPurchasePrice').innerText = data.summary.purchase_price.toLocaleString();
     document.getElementById('actualVoucher').innerText = data.summary.total_voucher.toLocaleString();
     document.getElementById('outOfPocket').innerText = data.summary.out_of_pocket.toLocaleString();
-
+    button.innerText = "Calculate"
   }
 
   window.calculateFleet = async function calculateFleet() {
     const priorityDistrictFleet = document.getElementById('priorityDistrictFleet').checked;
     const electrification = document.getElementById('electrification').checked;
     const fleetSize = document.getElementById('fleetSize').value;
-    const vouchers = document.getElementsByClassName('voucherFleet');
-    for (let i = 0; i < Object.keys(vouchers).length; i++) {
-      const key = String(i);
-      const value = vouchers[key];
-
-      value.innerText = 'Calculating';
-    }
+    const button = document.getElementById('fleetCalcButton');
+    button.innerText = "Calculating..."
     let data;
     try {
       const response = await fetch(`https://x8ki-letl-twmt.n7.xano.io/api:AcokRRGS/calc-fleet-cap?fleet-size=${fleetSize}&priority-district=${priorityDistrictFleet}&electrification-plan=${electrification}`)
@@ -112,6 +102,7 @@
     document.getElementById('priorityDistrictBonusFleet').innerText = data["bonus-prioritydistrict"].toLocaleString();
     document.getElementById('electrificationBonus').innerText = data["bonus-electrification-plan"].toLocaleString();
     document.getElementById('totalCap').innerText = data["voucher-cap"].toLocaleString();
+    button.innerText = "Calculate"
   }
 
   window.reset = async function reset() {
