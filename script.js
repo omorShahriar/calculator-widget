@@ -61,11 +61,16 @@
     const v2g = document.getElementById('v2gFeature').checked;
     const wheelchair = document.getElementById('wheelchair').checked;
     const purchasePrice = document.getElementById('purchasePrice').value;
+    const purchasePriceInNumber = parseFloat(purchasePrice.replace(/,/g, ''));
+    if (isNaN(purchasePriceInNumber)) {
+      alert('Please enter a valid number for purchase price');
+      return;
+    }
     const button = document.getElementById('busCalcButton');
     button.innerText = "Calculating..."
     let data;
     try {
-      const response = await fetch(`https://x8ki-letl-twmt.n7.xano.io/api:AcokRRGS/calc-voucher?bus_id=${busId}&priority-district=${priorityDistrict}&scrappage=${scrappage}&v2g=${v2g}&wheelchair=${wheelchair}&purchase_price=${purchasePrice}`);
+      const response = await fetch(`https://x8ki-letl-twmt.n7.xano.io/api:AcokRRGS/calc-voucher?bus_id=${busId}&priority-district=${priorityDistrict}&scrappage=${scrappage}&v2g=${v2g}&wheelchair=${wheelchair}&purchase_price=${purchasePriceInNumber}`);
       data = await response.json();
     } catch (error) {
       console.log(error);
@@ -88,11 +93,16 @@
     const priorityDistrictFleet = document.getElementById('priorityDistrictFleet').checked;
     const electrification = document.getElementById('electrification').checked;
     const fleetSize = document.getElementById('fleetSize').value;
+    const fleetSizeInNumber = parseFloat(fleetSize.replace(/,/g, ''));
+    if (isNaN(fleetSizeInNumber)) {
+      alert('Please enter a valid number for fleet size');
+      return;
+    }
     const button = document.getElementById('fleetCalcButton');
     button.innerText = "Calculating..."
     let data;
     try {
-      const response = await fetch(`https://x8ki-letl-twmt.n7.xano.io/api:AcokRRGS/calc-fleet-cap?fleet-size=${fleetSize}&priority-district=${priorityDistrictFleet}&electrification-plan=${electrification}`)
+      const response = await fetch(`https://x8ki-letl-twmt.n7.xano.io/api:AcokRRGS/calc-fleet-cap?fleet-size=${fleetSizeInNumber}&priority-district=${priorityDistrictFleet}&electrification-plan=${electrification}`)
 
       data = await response.json();
     } catch (error) {
