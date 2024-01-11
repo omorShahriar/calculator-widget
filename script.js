@@ -343,7 +343,7 @@
     <div> 
       <p>Fleet Electrification Plan Bonus: 
       <div>
-        </p><<span class="voucher voucherFleet" id="electrificationBonus">-</span> 
+        </p><span class="voucher voucherFleet" id="electrificationBonus">-</span> 
       </div>
     </div>
   
