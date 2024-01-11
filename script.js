@@ -328,14 +328,14 @@
     const fleetCapsSummarySection = createSummarySection('summaryFleet', 'RESULTS', `
     <div> 
       <p>Base Cap: </p>
-      <div><span>$</span><span class="voucher voucherFleet" id="baseCap">-</span></div>
+      <div><span class="voucher voucherFleet" id="baseCap">-</span></div>
     </div>
      
 
       <div>    
         <p>Priority District Bonus:</p>
         <div>
-          <span>$</span><span class="voucher voucherFleet" id="priorityDistrictBonusFleet">-</span>
+          <span class="voucher voucherFleet" id="priorityDistrictBonusFleet">-</span>
        </div>
       </div>
 
@@ -343,13 +343,13 @@
     <div> 
       <p>Fleet Electrification Plan Bonus: 
       <div>
-        </p><span>$</span><span class="voucher voucherFleet" id="electrificationBonus">-</span> 
+        </p><<span class="voucher voucherFleet" id="electrificationBonus">-</span> 
       </div>
     </div>
   
     <hr>
     <div>
-      <p>Total # of Bus Vouchers Eligible: <div></p><span>$</span><span class="voucher voucherFleet" id="totalCap">-</span></div></div>
+      <p>Total # of Bus Vouchers Eligible: <div></p><span class="voucher voucherFleet" id="totalCap">-</span></div></div>
   
      
       `);
