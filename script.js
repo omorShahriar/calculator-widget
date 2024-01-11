@@ -61,7 +61,9 @@
     const v2g = document.getElementById('v2gFeature').checked;
     const wheelchair = document.getElementById('wheelchair').checked;
     const purchasePrice = document.getElementById('purchasePrice').value;
-    const purchasePriceInNumber = purchasePrice.replace(/,/g, '');
+    const purchasePriceInNumber = purchasePrice.replace(/[,$]/g, '');
+    
+    // show error if purchase price is not a number
     if (isNaN(purchasePriceInNumber)) {
       alert('Please enter a valid number for purchase price');
       return;
@@ -75,7 +77,6 @@
     } catch (error) {
       console.log(error);
     }
-    // Update the summary fields
     document.getElementById('baseVoucher').innerText = data.voucher.base_voucher.toLocaleString();
     document.getElementById('priorityDistrictBonus').innerText = data.voucher.prioritydistrict.toLocaleString();
     document.getElementById('scrappageBonus').innerText = data.voucher.scrappage.toLocaleString();
@@ -93,7 +94,9 @@
     const priorityDistrictFleet = document.getElementById('priorityDistrictFleet').checked;
     const electrification = document.getElementById('electrification').checked;
     const fleetSize = document.getElementById('fleetSize').value;
-    const fleetSizeInNumber = fleetSize.replace(/,/g, '');
+    const fleetSizeInNumber = fleetSize.replace(/[,$]/g, '');
+
+    // show error if fleet size is not a number
     if (isNaN(fleetSizeInNumber)) {
       alert('Please enter a valid number for fleet size');
       return;
