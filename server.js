@@ -28,7 +28,7 @@ app.get('/script.js', asyncHandler(async function (req, res, next) {
             console.log('Error: API returned false')
             res.status(401).json({ msg: 'Error: API returned false' });
         } else {
-            fs.readFile('./script.js', (err, scriptData) => {
+            fs.readFile('scripts/calculator-script.js', (err, scriptData) => {
                 if (err) {
                     return res.status(500).send('Error loading script.js');
                 }
