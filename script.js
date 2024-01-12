@@ -62,7 +62,7 @@
     const wheelchair = document.getElementById('wheelchair').checked;
     const purchasePrice = document.getElementById('purchasePrice').value;
     const purchasePriceInNumber = purchasePrice.replace(/[,$]/g, '');
-    
+
     // show error if purchase price is not a number
     if (isNaN(purchasePriceInNumber)) {
       alert('Please enter a valid number for purchase price');
@@ -130,6 +130,8 @@
 
   async function initializeWidget() {
     generateBusCalculator();
+    const busVoucherButton = document.getElementById('busVoucherButton');
+    busVoucherButton.classList.add('active');
     await getBusTypes();
     attachResetEventListeners();
   }
@@ -294,7 +296,6 @@
     const busCalcButton = `<button id="busCalcButton" onclick="calculateVoucher()">Calculate</button>`;
     busVoucherSection.innerHTML += busCalcButton;
     const inputs = document.getElementsByTagName("input");
-    console.log(inputs);
     const busVoucherSummarySection = createSummarySection('summary', 'RESULTS', `
       <div> 
         <p>Base Voucher: </p>
@@ -317,16 +318,16 @@
       </div>
 
      <h2 id="final-summary">SUMMARY</h2>
-      <div> 
+      <div class="summary"> 
         <p>Bus Purchase Price: </p>
         <div><span>$</span><span class="voucher voucherBus" id="finalPurchasePrice">-</span></div>
       </div>
-      <div>
+      <div class="summary">
         <p>Actual NYSPIB Voucher: </p>
         <div><span>$</span><span class="voucher voucherBus" id="actualVoucher">-</span></div>
       </div>
       <hr>
-      <div>
+      <div class="summary">
         <p>Your Out of Pocket: </p>
         <div><span>$</span><span class="voucher voucherBus" id="outOfPocket">-</span></div>
       </div>
@@ -430,7 +431,7 @@
         display:flex;
         gap:.5em;
         position:relative;
-        top:3px;
+        top:2px;
         z-index:10;
       }
       .tab .tablinks{
@@ -448,7 +449,6 @@
       .tablinks.active{
         border-bottom-left-radius:0px;
         border-bottom-right-radius:0px;
-      
         background-color:${styleConfig.bgColor};
         border-bottom:4px solid ${styleConfig.bgColor};
         color: ${styleConfig.primaryColor};
@@ -528,6 +528,9 @@
         font-weight: medium;
         margin-top:2em;
         color: ${styleConfig.primaryColor};
+      }
+      .summary{
+        font-weight: bold;
       }
       #busNotes,
       #fleetNotes {
