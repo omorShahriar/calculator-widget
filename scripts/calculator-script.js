@@ -414,8 +414,10 @@
         font-family: ${styleConfig.fontFamily};
         font-size:${styleConfig.fontSize};
       }
-      #busCalculator p {
-        margin-bottom:0;
+      #busCalculator p,
+      #busCalculator hr,
+      #busCalculator h2 {
+        margin:0;
       }
       .hidden {
           display: none;
