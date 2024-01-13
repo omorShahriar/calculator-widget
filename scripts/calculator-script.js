@@ -414,7 +414,9 @@
         font-family: ${styleConfig.fontFamily};
         font-size:${styleConfig.fontSize};
       }
-     
+      #busCalculator p {
+        margin-bottom:0;
+      }
       .hidden {
           display: none;
       }
@@ -461,7 +463,6 @@
         padding:1.6em;
         background-color: ${styleConfig.bgColor};
         border: 2px solid ${styleConfig.primaryColor};
-      
         border-radius:1.2em;
         border-top-left-radius:0;
       }
@@ -485,6 +486,8 @@
         color: ${styleConfig.primaryColor};
         padding:0 0.8em;
         margin:0 auto;
+        max-width:fit-content;
+        border-color:transparent;
       }
       #busCalculator hr{
         border:1px solid ${styleConfig.primaryColor};
