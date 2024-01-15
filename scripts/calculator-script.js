@@ -17,6 +17,52 @@
     }
   }
 
+  async function getEligibleBuses() {
+    try {
+      const response = await fetch('https://x8ki-letl-twmt.n7.xano.io/api:AcokRRGS/nybsip_eligible_esb_list');
+      const data = await response.json();
+
+      const eligibleBuses = document.getElementById('eligibleBuses');
+      const eligibleBusesTable = document.createElement('table');
+      eligibleBusesTable.className = 'table';
+      eligibleBusesTable.innerHTML = `
+        <thead>
+          <tr>
+            <th>Bus Type</th>
+            <th>Estimated Range</th>
+            <th>Manufacturer</th>
+            <th>Model</th>
+            <th>Model Year</th>
+            <th>New Repair</th>
+            <th>More</th>
+          </tr>
+        </thead>
+      `;
+      const eligibleBusesTableBody = document.createElement('tbody');
+      eligibleBusesTableBody.id = 'eligibleBusesTableBody';
+      eligibleBusesTable.appendChild(eligibleBusesTableBody);
+      eligibleBuses.appendChild(eligibleBusesTable);
+
+      data.forEach(bus => {
+        const eligibleBusesTableRow = document.createElement('tr');
+        eligibleBusesTableRow.innerHTML = `
+          <td>${bus.bus_type}</td>
+          <td>${bus.estimated_range}</td>
+          <td>${bus.manufacturer}</td>
+          <td>${bus.model}</td>
+          <td>${bus.model_year}</td>
+          <td>${bus.new_repower}</td>
+          <td><a href="#" target="_blank">More</a></td>
+        `;
+        eligibleBusesTableBody.appendChild(eligibleBusesTableRow);
+      }
+      );
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }   
+
   function attachResetEventListeners() {
     const inputs = document.querySelectorAll('input');
     const selects = document.querySelectorAll('select');
@@ -133,6 +179,7 @@
     const busVoucherButton = document.getElementById('busVoucherButton');
     busVoucherButton.classList.add('active');
     await getBusTypes();
+    await getEligibleBuses();
     attachResetEventListeners();
   }
 
@@ -377,6 +424,7 @@
           <div class="tab">
           <button class="tablinks" id="busVoucherButton">Single Bus Voucher</button>
           <button class="tablinks" id="fleetwideButton">Fleetwide Caps</button>
+          <button class="tablinks" id="eligibleBusButton">Eligible Buses</button>
           </div>
       </div>
         <div id="singleBusVoucher" class="tabcontent active">
@@ -391,6 +439,8 @@
           ${fleetCapsNotesSection.outerHTML}
           ${fleetCapsFooter.outerHTML}
         </div>
+        <div id="eligibleBuses" class="tabcontent">
+        </div>
       `;
     const busTabButton = document.getElementById('busVoucherButton');
     busTabButton.onclick = (event) => openTab(event, 'singleBusVoucher');
@@ -398,6 +448,8 @@
     const fleetTabButton = document.getElementById('fleetwideButton');
     fleetTabButton.onclick = (event) => openTab(event, 'fleetwideCaps');
 
+    const eligibleBusButton = document.getElementById('eligibleBusButton');
+    eligibleBusButton.onclick = (event) => openTab(event, 'eligibleBuses');
 
     const styles = `
       *{
