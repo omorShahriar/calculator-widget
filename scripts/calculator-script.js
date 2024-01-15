@@ -24,7 +24,7 @@
 
       const eligibleBuses = document.getElementById('eligibleBuses');
       const eligibleBusesTable = document.createElement('table');
-      eligibleBusesTable.className = 'table';
+      eligibleBusesTable.className = 'scrollable-table';
       eligibleBusesTable.innerHTML = `
         <thead>
           <tr>
@@ -618,6 +618,31 @@
         text-decoration:underline;
         color:white;
       }
+
+
+
+      tr {
+        border: 1px solid #777;
+      }
+
+      td {
+        padding: 5px;
+        text-align: left;
+      }
+
+      th {
+        text-align: left;
+        padding: 5px;
+      }
+
+      tr:nth-of-type(even) {
+        background: #efefef;
+      }
+      #eligibleBuses {
+        overflow: auto;
+        max-width: 100%;
+      }
+
       @media screen and (min-width: 768px) {
         .tab .tablinks{
           font-size: 2em;
