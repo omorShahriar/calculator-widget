@@ -23,7 +23,7 @@
       const data = await response.json();
       data.forEach(bus => {
         const eligibleBusesTableRow = document.createElement('tr');
-        eligibleBusesTableRow.onclick = () => getOneBus(bus.id);
+        eligibleBusesTableRow.onclick = () => openModal(bus.id);
         eligibleBusesTableRow.innerHTML = `
           <td>${bus.bus_type}</td>
           <td>${bus.estimated_range}</td>
@@ -109,97 +109,20 @@
           </tr>
         </table>
       `;
+      const busModal = document.getElementById('busModal');
+      busModal.appendChild(eligibleBusesModalBody);
    } catch (error) {
       console.log(error);
    }
   }
 
-  function generateModal(data) {
-    const eligibleBuses = document.getElementById('eligibleBuses');
-    const eligibleBusesModal = document.createElement('div');
-    eligibleBusesModal.id = 'busModal';
-    eligibleBusesModal.className = 'modal';
-
-    const eligibleBusesModalContent = document.createElement('div');
-    eligibleBusesModalContent.className = 'modal-content';
-
-    const eligibleBusesModalHeader = document.createElement('div');
-    eligibleBusesModalHeader.className = 'modal-header';
-    eligibleBusesModalHeader.innerHTML = `
-      <span class="close">&times;</span>
-      <h2>Bus Details</h2>
-    `;
-
-    const eligibleBusesModalBody = document.createElement('div');
-    eligibleBusesModalBody.className = 'modal-body';
-    eligibleBusesModalBody.innerHTML = `
-      <table>
-        <tr>
-          <th>Type</th>
-          <td>${data.bus_type}</td>
-        </tr>
-        <tr>
-          <th>Rated Power(kW)</th>
-          <td>${data.rated_power}</td>
-        </tr>
-        <tr>
-          <th>Estimated Range</th>
-          <td>${data.estimated_range}</td>
-        </tr>
-        <tr>
-          <th>Fuel Type</th>
-          <td>${data.fuel_type}</td>
-        </tr>
-        <tr>
-          <th>Manufacturer</th>
-          <td>${data.manufacturer}</td>
-        </tr>
-        <tr>
-          <th>Model</th>
-          <td>${data.model}</td> 
-        </tr>
-        <tr>
-          <th>Model Year</th>
-          <td>${data.model_year}</td>
-        </tr>
-        <tr>
-          <th>New/Repower</th>
-          <td>${data.new_repower}</td>
-        </tr>
-        <tr>
-          <th>GVWR (lbs)</th>
-          <td>${data.gvwr}</td>
-        </tr>
-        <tr>
-          <th>Seating Capacity</th>
-          <td>${data.seating_capacity}</td>
-        </tr>
-        <tr>
-          <th>V2G Add-On Available</th>
-          <td>${data.v2g_add_on_available}</td>
-        </tr>
-        <tr>
-          <th>Wheelchair Add-On Available</th>
-          <td>${data.wheelchair_add_on_available}</td>
-        </tr>
-        <tr>
-          <th>Base Voucher Amount</th>
-          <td>${data.base_voucher_amount}</td>
-        </tr>
-        <tr>
-          <th>Added Date</th>
-          <td>${data.added_date}</td>
-        </tr>
-      </table>
-    `;
-  }
-
-  function openModal() {
-    document.getElementById('myModal').style.display = 'block';
+  function openModal(id) {
+    document.getElementById('busModal').style.display = 'block';
+    getOneBus(id);
   }
   
   function closeModal() {
-    document.getElementById('myModal').style.display = 'none';
+    document.getElementById('busModal').style.display = 'none';
   }
 
   function attachResetEventListeners() {
