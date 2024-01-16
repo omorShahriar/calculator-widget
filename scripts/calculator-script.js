@@ -19,32 +19,11 @@
 
   async function getEligibleBuses() {
     try {
-      const response = await fetch('https://x8ki-letl-twmt.n7.xano.io/api:AcokRRGS/nybsip_eligible_esb_list');
+      const response = await fetch('https://x8ki-letl-twmt.n7.xano.io/api:AcokRRGS/nybsip-eligible-esb-list');
       const data = await response.json();
-
-      const eligibleBuses = document.getElementById('eligibleBuses');
-      const eligibleBusesTable = document.createElement('table');
-      eligibleBusesTable.className = 'scrollable-table';
-      eligibleBusesTable.innerHTML = `
-        <thead>
-          <tr>
-            <th>Bus Type</th>
-            <th>Estimated Range</th>
-            <th>Manufacturer</th>
-            <th>Model</th>
-            <th>Model Year</th>
-            <th>New Repair</th>
-            <th>More</th>
-          </tr>
-        </thead>
-      `;
-      const eligibleBusesTableBody = document.createElement('tbody');
-      eligibleBusesTableBody.id = 'eligibleBusesTableBody';
-      eligibleBusesTable.appendChild(eligibleBusesTableBody);
-      eligibleBuses.appendChild(eligibleBusesTable);
-
       data.forEach(bus => {
         const eligibleBusesTableRow = document.createElement('tr');
+        eligibleBusesTableRow.onclick = () => getOneBus(bus.id);
         eligibleBusesTableRow.innerHTML = `
           <td>${bus.bus_type}</td>
           <td>${bus.estimated_range}</td>
@@ -62,6 +41,166 @@
       console.log(error);
     }
   }   
+
+  async function getOneBus(busId) {
+   try {
+      const response = await fetch(`https://x8ki-letl-twmt.n7.xano.io/api:AcokRRGS/nybsip-single-bus-data?nybsip_eligible_esb_list_id=${busId}`);
+      const data = await response.json();
+
+      const eligibleBusesModalBody = document.createElement('div');
+      eligibleBusesModalBody.className = 'modal-body';
+      eligibleBusesModalBody.innerHTML = `
+        <table>
+          <tr>
+            <th>Type</th>
+            <td>${data.bus_type}</td>
+          </tr>
+          <tr>
+            <th>Rated Power(kW)</th>
+            <td>${data.rated_power}</td>
+          </tr>
+          <tr>
+            <th>Estimated Range</th>
+            <td>${data.estimated_range}</td>
+          </tr>
+          <tr>
+            <th>Fuel Type</th>
+            <td>${data.fuel_type}</td>
+          </tr>
+          <tr>
+            <th>Manufacturer</th>
+            <td>${data.manufacturer}</td>
+          </tr>
+          <tr>
+            <th>Model</th>
+            <td>${data.model}</td> 
+          </tr>
+          <tr>
+            <th>Model Year</th>
+            <td>${data.model_year}</td>
+          </tr>
+          <tr>
+            <th>New/Repower</th>
+            <td>${data.new_repower}</td>
+          </tr>
+          <tr>
+            <th>GVWR (lbs)</th>
+            <td>${data.gvwr}</td>
+          </tr>
+          <tr>
+            <th>Seating Capacity</th>
+            <td>${data.seating_capacity}</td>
+          </tr>
+          <tr>
+            <th>V2G Add-On Available</th>
+            <td>${data.v2g_add_on_available}</td>
+          </tr>
+          <tr>
+            <th>Wheelchair Add-On Available</th>
+            <td>${data.wheelchair_add_on_available}</td>
+          </tr>
+          <tr>
+            <th>Base Voucher Amount</th>
+            <td>${data.base_voucher_amount}</td>
+          </tr>
+          <tr>
+            <th>Added Date</th>
+            <td>${data.added_date}</td>
+          </tr>
+        </table>
+      `;
+   } catch (error) {
+      console.log(error);
+   }
+  }
+
+  function generateModal(data) {
+    const eligibleBuses = document.getElementById('eligibleBuses');
+    const eligibleBusesModal = document.createElement('div');
+    eligibleBusesModal.id = 'busModal';
+    eligibleBusesModal.className = 'modal';
+
+    const eligibleBusesModalContent = document.createElement('div');
+    eligibleBusesModalContent.className = 'modal-content';
+
+    const eligibleBusesModalHeader = document.createElement('div');
+    eligibleBusesModalHeader.className = 'modal-header';
+    eligibleBusesModalHeader.innerHTML = `
+      <span class="close">&times;</span>
+      <h2>Bus Details</h2>
+    `;
+
+    const eligibleBusesModalBody = document.createElement('div');
+    eligibleBusesModalBody.className = 'modal-body';
+    eligibleBusesModalBody.innerHTML = `
+      <table>
+        <tr>
+          <th>Type</th>
+          <td>${data.bus_type}</td>
+        </tr>
+        <tr>
+          <th>Rated Power(kW)</th>
+          <td>${data.rated_power}</td>
+        </tr>
+        <tr>
+          <th>Estimated Range</th>
+          <td>${data.estimated_range}</td>
+        </tr>
+        <tr>
+          <th>Fuel Type</th>
+          <td>${data.fuel_type}</td>
+        </tr>
+        <tr>
+          <th>Manufacturer</th>
+          <td>${data.manufacturer}</td>
+        </tr>
+        <tr>
+          <th>Model</th>
+          <td>${data.model}</td> 
+        </tr>
+        <tr>
+          <th>Model Year</th>
+          <td>${data.model_year}</td>
+        </tr>
+        <tr>
+          <th>New/Repower</th>
+          <td>${data.new_repower}</td>
+        </tr>
+        <tr>
+          <th>GVWR (lbs)</th>
+          <td>${data.gvwr}</td>
+        </tr>
+        <tr>
+          <th>Seating Capacity</th>
+          <td>${data.seating_capacity}</td>
+        </tr>
+        <tr>
+          <th>V2G Add-On Available</th>
+          <td>${data.v2g_add_on_available}</td>
+        </tr>
+        <tr>
+          <th>Wheelchair Add-On Available</th>
+          <td>${data.wheelchair_add_on_available}</td>
+        </tr>
+        <tr>
+          <th>Base Voucher Amount</th>
+          <td>${data.base_voucher_amount}</td>
+        </tr>
+        <tr>
+          <th>Added Date</th>
+          <td>${data.added_date}</td>
+        </tr>
+      </table>
+    `;
+  }
+
+  function openModal() {
+    document.getElementById('myModal').style.display = 'block';
+  }
+  
+  function closeModal() {
+    document.getElementById('myModal').style.display = 'none';
+  }
 
   function attachResetEventListeners() {
     const inputs = document.querySelectorAll('input');
@@ -417,6 +556,42 @@
     const fleetCapsNotesSection = createHelpNotesSection('fleetNotes');
     const fleetCapsFooter = createFooter('fleet');
 
+
+    const eligibleBusesTable = document.createElement('table');
+    eligibleBusesTable.className = 'scrollable-table';
+    eligibleBusesTable.innerHTML = `
+      <thead>
+        <tr>
+          <th>Bus Type</th>
+          <th>Estimated Range</th>
+          <th>Manufacturer</th>
+          <th>Model</th>
+          <th>Model Year</th>
+          <th>New Repair</th>
+          <th>More</th>
+        </tr>
+      </thead>
+    `;
+    const eligibleBusesTableBody = document.createElement('tbody');
+    eligibleBusesTableBody.id = 'eligibleBusesTableBody';
+    eligibleBusesTable.appendChild(eligibleBusesTableBody);
+
+       
+    const eligibleBusesModal = document.createElement('div');
+    eligibleBusesModal.id = 'busModal';
+    eligibleBusesModal.className = 'modal';
+
+    const eligibleBusesModalContent = document.createElement('div');
+    eligibleBusesModalContent.className = 'modal-content';
+
+    const eligibleBusesModalHeader = document.createElement('div');
+    eligibleBusesModalHeader.className = 'modal-header';
+    eligibleBusesModalHeader.innerHTML = `
+      <span class="close">&times;</span>
+      <h2>Bus Details</h2>
+    `;
+
+
     const busCalculator = document.getElementById('busCalculator');
     busCalculator.innerHTML = `
       <div class='header' >
@@ -440,6 +615,8 @@
           ${fleetCapsFooter.outerHTML}
         </div>
         <div id="eligibleBuses" class="tabcontent">
+          ${eligibleBusesTable.outerHTML}
+          ${eligibleBusesModal.outerHTML}
         </div>
       `;
     const busTabButton = document.getElementById('busVoucherButton');
@@ -660,6 +837,12 @@
         .tabcontent.active #busFooter,
         .tabcontent.active #fleetFooter {
           width:100%;
+        }
+      }
+
+      @media print {
+        #busCalculator {
+          display: none;
         }
       }
       `
