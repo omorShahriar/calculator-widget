@@ -59,8 +59,8 @@
     const eligibleBusesModalHeader = document.createElement('div');
     eligibleBusesModalHeader.className = 'modal-header';
     eligibleBusesModalHeader.innerHTML = `
-      <span class="close" onClick="closeModal()">&times;</span>
-      <h2>Bus Details</h2>
+    <h2>Bus Details</h2>
+    <button type="button" class="close" id="closeModalButton">Close</button>
     `;
 
       const eligibleBusesModalBody = document.createElement('div');
@@ -136,6 +136,9 @@
     eligibleBusesModalContent.appendChild(eligibleBusesModalBody);
     eligibleBusesModalContent.appendChild(eligibleBusesModalFooter);
     eligibleBusesModal.appendChild(eligibleBusesModalContent);
+
+    const closeModalButton = document.getElementById('closeModalButton');
+    closeModalButton.onclick = () => closeModal();
    } catch (error) {
       console.log(error);
    }
@@ -147,8 +150,14 @@
   }
   
   function clearModal() {
-    const busModal = document.getElementsByClassName('busModal');
-    busModal.innerHTML = '';
+    var elements = document.getElementsByClassName("modal-content");
+
+    var elementsArray = Array.from(elements);
+    
+    elementsArray.forEach(function(element) {
+        element.remove();
+    });
+    
   }
 
   function closeModal() {
