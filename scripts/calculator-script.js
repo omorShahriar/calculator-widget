@@ -23,7 +23,10 @@
       const data = await response.json();
       data.forEach(bus => {
         const eligibleBusesTableRow = document.createElement('tr');
-        eligibleBusesTableRow.onclick = () => openModal(bus.id);
+        eligibleBusesTableRow.onclick = () => {
+          clearModal();
+          openModal(bus.id)
+        };
         eligibleBusesTableRow.innerHTML = `
           <td>${bus.bus_type}</td>
           <td>${bus.estimated_range}</td>
@@ -46,6 +49,19 @@
    try {
       const response = await fetch(`https://x8ki-letl-twmt.n7.xano.io/api:AcokRRGS/nybsip-single-bus-data?nybsip_eligible_esb_list_id=${busId}`);
       const data = await response.json();
+
+
+    const eligibleBusesModal = document.getElementById('busModal');
+
+    const eligibleBusesModalContent = document.createElement('div');
+    eligibleBusesModalContent.className = 'modal-content';
+
+    const eligibleBusesModalHeader = document.createElement('div');
+    eligibleBusesModalHeader.className = 'modal-header';
+    eligibleBusesModalHeader.innerHTML = `
+      <span class="close" onClick="closeModal()">&times;</span>
+      <h2>Bus Details</h2>
+    `;
 
       const eligibleBusesModalBody = document.createElement('div');
       eligibleBusesModalBody.className = 'modal-body';
@@ -93,15 +109,15 @@
           </tr>
           <tr>
             <th>V2G Add-On Available</th>
-            <td>${data.v2g_add_on_available}</td>
+            <td>${data.v2g_addon}</td>
           </tr>
           <tr>
             <th>Wheelchair Add-On Available</th>
-            <td>${data.wheelchair_add_on_available}</td>
+            <td>${data.wheelchair_addon}</td>
           </tr>
           <tr>
             <th>Base Voucher Amount</th>
-            <td>${data.base_voucher_amount}</td>
+            <td>${data.base_voucher}</td>
           </tr>
           <tr>
             <th>Added Date</th>
@@ -109,8 +125,17 @@
           </tr>
         </table>
       `;
-      const busModal = document.getElementById('busModal');
-      busModal.appendChild(eligibleBusesModalBody);
+
+      const eligibleBusesModalFooter = document.createElement('div');
+      eligibleBusesModalFooter.className = 'modal-footer';
+      eligibleBusesModalFooter.innerHTML = `
+        <h3>Provided by <a href="http://www.spectivate.com" target="_blank">Spectivate LLC</a></h3>
+      `;
+
+    eligibleBusesModalContent.appendChild(eligibleBusesModalHeader);
+    eligibleBusesModalContent.appendChild(eligibleBusesModalBody);
+    eligibleBusesModalContent.appendChild(eligibleBusesModalFooter);
+    eligibleBusesModal.appendChild(eligibleBusesModalContent);
    } catch (error) {
       console.log(error);
    }
@@ -121,9 +146,16 @@
     getOneBus(id);
   }
   
+  function clearModal() {
+    const busModal = document.getElementsByClassName('busModal');
+    busModal.innerHTML = '';
+  }
+
   function closeModal() {
+    clearModal();
     document.getElementById('busModal').style.display = 'none';
   }
+
 
   function attachResetEventListeners() {
     const inputs = document.querySelectorAll('input');
@@ -499,21 +531,10 @@
     eligibleBusesTableBody.id = 'eligibleBusesTableBody';
     eligibleBusesTable.appendChild(eligibleBusesTableBody);
 
-       
+
     const eligibleBusesModal = document.createElement('div');
     eligibleBusesModal.id = 'busModal';
     eligibleBusesModal.className = 'modal';
-
-    const eligibleBusesModalContent = document.createElement('div');
-    eligibleBusesModalContent.className = 'modal-content';
-
-    const eligibleBusesModalHeader = document.createElement('div');
-    eligibleBusesModalHeader.className = 'modal-header';
-    eligibleBusesModalHeader.innerHTML = `
-      <span class="close">&times;</span>
-      <h2>Bus Details</h2>
-    `;
-
 
     const busCalculator = document.getElementById('busCalculator');
     busCalculator.innerHTML = `
@@ -743,6 +764,33 @@
         max-width: 100%;
       }
 
+      .modal-header {
+        padding: 2px 16px;
+        background-color: #5cb85c;
+        color: white;
+      }
+      
+      .modal-body {
+        padding: 2px 16px;
+        overflow: auto;
+      }
+      
+      .modal-footer {
+        padding: 2px 16px;
+        background-color: #5cb85c;
+        color: white;
+      }
+      
+      .modal-content {
+        position: relative;
+        background-color: #fefefe;
+        margin: auto;
+        padding: 0;
+        border: 1px solid #888;
+        width: 80%;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+      }
+      
       @media screen and (min-width: 768px) {
         .tab .tablinks{
           font-size: 2em;
