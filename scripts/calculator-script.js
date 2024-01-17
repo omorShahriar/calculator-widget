@@ -23,10 +23,6 @@
       const data = await response.json();
       data.forEach(bus => {
         const eligibleBusesTableRow = document.createElement('tr');
-        eligibleBusesTableRow.onclick = () => {
-          clearModal();
-          openModal(bus.id)
-        };
         eligibleBusesTableRow.innerHTML = `
           <td>${bus.bus_type}</td>
           <td>${bus.estimated_range}</td>
@@ -34,33 +30,42 @@
           <td>${bus.model}</td>
           <td>${bus.model_year}</td>
           <td>${bus.new_repower}</td>
-          <td><a href="#" target="_blank">More</a></td>
+          <td><p class='modalOpener'>More</p></td>
         `;
         eligibleBusesTableBody.appendChild(eligibleBusesTableRow);
+
       }
       );
+      const modalOpeners = document.getElementsByClassName('modalOpener');
+      for (let i = 0; i < modalOpeners.length; i++) {
+        const modalOpener = modalOpeners[i];
+        modalOpener.onclick = () => {
+          clearModal();
+          openModal(data[i].id)
+        };
+      }
     }
     catch (error) {
       console.log(error);
     }
-  }   
+  }
 
   async function getOneBus(busId) {
-   try {
+    try {
       const response = await fetch(`https://x8ki-letl-twmt.n7.xano.io/api:AcokRRGS/nybsip-single-bus-data?nybsip_eligible_esb_list_id=${busId}`);
       const data = await response.json();
 
 
-    const eligibleBusesModal = document.getElementById('busModal');
+      const eligibleBusesModal = document.getElementById('busModal');
 
-    const eligibleBusesModalContent = document.createElement('div');
-    eligibleBusesModalContent.className = 'modal-content';
+      const eligibleBusesModalContent = document.createElement('div');
+      eligibleBusesModalContent.className = 'modal-content';
 
-    const eligibleBusesModalHeader = document.createElement('div');
-    eligibleBusesModalHeader.className = 'modal-header';
-    eligibleBusesModalHeader.innerHTML = `
+      const eligibleBusesModalHeader = document.createElement('div');
+      eligibleBusesModalHeader.className = 'modal-header';
+      eligibleBusesModalHeader.innerHTML = `
     <h2>Bus Details</h2>
-    <button type="button" class="close" id="closeModalButton">Close</button>
+    <button type="button" class="close" id="closeModalButton">X</button>
     `;
 
       const eligibleBusesModalBody = document.createElement('div');
@@ -134,51 +139,51 @@
       var container = document.createElement('div');
 
       contractorsArray.forEach(function (contractorInfo) {
-          var contractorLines = contractorInfo.split('\n');
-          var contractorDiv = document.createElement('div');
+        var contractorLines = contractorInfo.split('\n');
+        var contractorDiv = document.createElement('div');
 
-          contractorLines.forEach(function (line, index) {
-              var element = document.createElement(index === 0 ? 'strong' : 'span');
-              element.textContent = line;
-              contractorDiv.appendChild(element);
+        contractorLines.forEach(function (line, index) {
+          var element = document.createElement(index === 0 ? 'strong' : 'span');
+          element.textContent = line;
+          contractorDiv.appendChild(element);
 
-              if (index < contractorLines.length - 1) {
-                  contractorDiv.appendChild(document.createElement('br'));
-              }
-          });
+          if (index < contractorLines.length - 1) {
+            contractorDiv.appendChild(document.createElement('br'));
+          }
+        });
 
-          container.appendChild(contractorDiv);
+        container.appendChild(contractorDiv);
       });
 
-      
+
       eligibleBusesModalFooter.appendChild(container);
 
-    eligibleBusesModalContent.appendChild(eligibleBusesModalHeader);
-    eligibleBusesModalContent.appendChild(eligibleBusesModalBody);
-    eligibleBusesModalContent.appendChild(eligibleBusesModalFooter);
-    eligibleBusesModal.appendChild(eligibleBusesModalContent);
+      eligibleBusesModalContent.appendChild(eligibleBusesModalHeader);
+      eligibleBusesModalContent.appendChild(eligibleBusesModalBody);
+      eligibleBusesModalContent.appendChild(eligibleBusesModalFooter);
+      eligibleBusesModal.appendChild(eligibleBusesModalContent);
 
-    const closeModalButton = document.getElementById('closeModalButton');
-    closeModalButton.onclick = () => closeModal();
-   } catch (error) {
+      const closeModalButton = document.getElementById('closeModalButton');
+      closeModalButton.onclick = () => closeModal();
+    } catch (error) {
       console.log(error);
-   }
+    }
   }
 
   function openModal(id) {
     document.getElementById('busModal').style.display = 'block';
     getOneBus(id);
   }
-  
+
   function clearModal() {
     var elements = document.getElementsByClassName("modal-content");
 
     var elementsArray = Array.from(elements);
-    
-    elementsArray.forEach(function(element) {
-        element.remove();
+
+    elementsArray.forEach(function (element) {
+      element.remove();
     });
-    
+
   }
 
   function closeModal() {
@@ -552,7 +557,7 @@
           <th>Manufacturer</th>
           <th>Model</th>
           <th>Model Year</th>
-          <th>New Repair</th>
+          <th>New Repower</th>
           <th>More</th>
         </tr>
       </thead>
@@ -789,17 +794,102 @@
       tr:nth-of-type(even) {
         background: #efefef;
       }
-      #eligibleBuses {
-        overflow: auto;
-        max-width: 100%;
+      
+
+      .modalOpener {
+        color: #5A3A31;
+        cursor: pointer;
+        font-weight: bold;
       }
 
+      .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 100; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+      }
+
+     .scrollable-table {
+       width:100%;
+        display: block;
+        empty-cells: show;
+        /* Decoration */
+        border-spacing: 0;
+        border: 1px solid;
+     }
+     #eligibleBuses {
+      justify-content: center;
+      
+     }
+.scrollable-table thead {
+    background-color: #f1f1f1;  
+    position:relative;
+    display: block;
+    width:100%;
+    overflow-y: scroll;
+}
+
+.scrollable-table tbody{
+  /* Position */
+  display: block; position:relative;
+  width:100%; overflow-y:scroll;
+  /* Decoration */
+  border-top: 1px solid rgba(0,0,0,0.2);
+}
+     
+.scrollable-table tr{
+  width: 100%;
+  display:flex;
+}
+
+.scrollable-table td,.scrollable-table th{
+  flex-basis:100%;
+  flex-grow:2;
+  display: block;
+  padding: 1rem;
+  text-align:left;
+}
+#eligibleBusesTableBody {
+   max-height: 50vh;
+}
+
+
+      .modal-content {
+        position: relative;
+        background-color: #fefefe;
+        margin: auto;
+        padding: 0;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: fit-content;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+      }
       .modal-header {
-        padding: 2px 16px;
+        padding: 4px 16px;
         background-color: #5cb85c;
         color: white;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
       }
       
+      #closeModalButton {
+        color: #DE3C4B;
+        font-size: 12px;
+        background: white;
+        border: transparent;
+        font-weight: medium;
+        padding:4px;
+        border-radius: 50%;
+      }
       .modal-body {
         padding: 2px 16px;
         overflow: auto;
@@ -811,15 +901,7 @@
         color: white;
       }
       
-      .modal-content {
-        position: relative;
-        background-color: #fefefe;
-        margin: auto;
-        padding: 0;
-        border: 1px solid #888;
-        width: 80%;
-        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-      }
+  
       
       @media screen and (min-width: 768px) {
         .tab .tablinks{
