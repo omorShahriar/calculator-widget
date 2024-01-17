@@ -128,9 +128,30 @@
 
       const eligibleBusesModalFooter = document.createElement('div');
       eligibleBusesModalFooter.className = 'modal-footer';
-      eligibleBusesModalFooter.innerHTML = `
-        <h3>Provided by <a href="http://www.spectivate.com" target="_blank">Spectivate LLC</a></h3>
-      `;
+
+      var contractorsArray = data.contractors.split('\n\n\n');
+
+      var container = document.createElement('div');
+
+      contractorsArray.forEach(function (contractorInfo) {
+          var contractorLines = contractorInfo.split('\n');
+          var contractorDiv = document.createElement('div');
+
+          contractorLines.forEach(function (line, index) {
+              var element = document.createElement(index === 0 ? 'strong' : 'span');
+              element.textContent = line;
+              contractorDiv.appendChild(element);
+
+              if (index < contractorLines.length - 1) {
+                  contractorDiv.appendChild(document.createElement('br'));
+              }
+          });
+
+          container.appendChild(contractorDiv);
+      });
+
+      
+      eligibleBusesModalFooter.appendChild(container);
 
     eligibleBusesModalContent.appendChild(eligibleBusesModalHeader);
     eligibleBusesModalContent.appendChild(eligibleBusesModalBody);
