@@ -870,6 +870,7 @@
   display: block;
   padding: 1rem;
   text-align:left;
+  border:0;
 }
 #eligibleBusesTableBody {
    max-height: 53.5vh;
