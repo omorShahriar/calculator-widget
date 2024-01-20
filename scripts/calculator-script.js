@@ -71,7 +71,7 @@
       const eligibleBusesModalBody = document.createElement('div');
       eligibleBusesModalBody.className = 'modal-body';
       eligibleBusesModalBody.innerHTML = `
-        <table>
+        <table class="modal-table">
           <tr>
             <th>Type</th>
             <td>${data.bus_type}</td>
@@ -787,19 +787,6 @@
 
 
 
-      tr {
-        border: 1px solid #777;
-      }
-
-      td {
-        padding: 5px;
-        text-align: left;
-      }
-
-      th {
-        text-align: left;
-        padding: 5px;
-      }
 
       tr:nth-of-type(even) {
         background: #efefef;
@@ -827,6 +814,14 @@
         background-color: rgb(0,0,0); /* Fallback color */
         background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
       }
+       .modal-table{
+        width:100%;
+        border-collapse: collapse;
+        border-spacing: 0;
+        border: 1px solid #ddd;
+        margin:0 auto;
+        font-size:1.2em;
+       }
 
      .scrollable-table {
        width:100%;
