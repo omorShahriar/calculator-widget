@@ -872,7 +872,7 @@
   text-align:left;
   border:0;
 }
-#eligiblelBuses .scrollable-table thead tr th {
+#eligibleBuses .scrollable-table thead tr th {
   border-block-start:0;
   border:0;
 } 
