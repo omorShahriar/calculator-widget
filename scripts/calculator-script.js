@@ -816,8 +816,8 @@
       .modal {
         display: none; /* Hidden by default */
         position: fixed; /* Stay in place */
-        z-index: 100; /* Sit on top */
-        padding-top: 100px; /* Location of the box */
+        z-index: 999; /* Sit on top */
+        padding-top: 50px; /* Location of the box */
         left: 0;
         top: 0;
         width: 100%; /* Full width */
@@ -878,10 +878,9 @@
 
       .modal-content {
         position: relative;
-        margin: auto;
+        margin: 0 auto;
         padding: 0;
-        width: 80%;
-        max-width: fit-content;
+        width: 90%;
         background-color: white;
       }
       .modal-header {
@@ -932,6 +931,13 @@
         .tabcontent.active #busFooter,
         .tabcontent.active #fleetFooter {
           width:100%;
+        }
+        .modal {
+          
+          padding-top: 100px; /* Location of the box */
+      }
+        .modal-content {
+          width: 50%;
         }
       }
 
