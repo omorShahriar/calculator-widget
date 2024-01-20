@@ -805,8 +805,7 @@
         position: fixed; /* Stay in place */
         z-index: 9999; /* Sit on top */
         padding-top: 50px; /* Location of the box */
-        inset:0
-        
+        inset:0;
         overflow: auto; /* Enable scroll if needed */
         background-color: rgb(0,0,0); /* Fallback color */
         background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
