@@ -873,6 +873,7 @@
   border:0;
 }
 .scrollable-table thead tr th {
+  border-block-start:0;
   border:0;
 } 
 #eligibleBusesTableBody {
