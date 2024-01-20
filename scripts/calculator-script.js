@@ -872,6 +872,9 @@
   text-align:left;
   border:0;
 }
+.scrollable-table thead tr th {
+  border:0;
+} 
 #eligibleBusesTableBody {
    max-height: 53.5vh;
 }
