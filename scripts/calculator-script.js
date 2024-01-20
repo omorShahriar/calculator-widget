@@ -30,7 +30,7 @@
           <td>${bus.model}</td>
           <td>${bus.model_year}</td>
           <td>${bus.new_repower}</td>
-          <td><p class='modalOpener'>More</p></td>
+          <td><p class='modalOpener'>more</p></td>
         `;
         eligibleBusesTableBody.appendChild(eligibleBusesTableRow);
 
@@ -137,7 +137,9 @@
       var contractorsArray = data.contractors.split('\n\n\n');
 
       var container = document.createElement('div');
-
+      var contractorHeader = document.createElement('h3');
+      contractorHeader.textContent = 'Contractor(s)';
+      container.appendChild(contractorHeader);
       contractorsArray.forEach(function (contractorInfo) {
         var contractorLines = contractorInfo.split('\n');
         var contractorDiv = document.createElement('div');
@@ -154,7 +156,6 @@
 
         container.appendChild(contractorDiv);
       });
-
 
       eligibleBusesModalFooter.appendChild(container);
 
@@ -438,14 +439,20 @@
                  consult an expert before depending on these results.</em>
                  </div>
           `;
+      } else if (id === 'eligibleBusesNotes') {
+        notesDiv.innerHTML = `
+         <div>
+               <em><strong>Disclaimer:</strong> All specifications are as each manufacturer has submitted to NYSERDA</em>
+                 </div>
+          `;
       }
 
       return notesDiv;
     };
 
-    const createFooter = (id) => {
+    const createFooter = () => {
       const footer = document.createElement('footer');
-      footer.id = `${id}Footer`;
+      footer.id = `footer`;
       footer.innerHTML = `
           <em>Provided by <a href="http://www.spectivate.com" target="_blank">Spectivate LLC</a></em>
         `;
@@ -510,7 +517,7 @@
 
         `);
     const busVoucherNotesSection = createHelpNotesSection('busNotes');
-    const busVoucherFooter = createFooter('bus');
+
 
     const fleetCapsSection = createInputSection('inputsFleet', 'INPUTS', fleetCapsInputs, "fleetCalcButton");
     const fleetCalcButton = `<button id="fleetCalcButton" onclick="calculateFleet()">Calculate</button>`;
@@ -544,7 +551,7 @@
      
       `);
     const fleetCapsNotesSection = createHelpNotesSection('fleetNotes');
-    const fleetCapsFooter = createFooter('fleet');
+
 
 
     const eligibleBusesTable = document.createElement('table');
@@ -557,8 +564,8 @@
           <th>Manufacturer</th>
           <th>Model</th>
           <th>Model Year</th>
-          <th>New Repower</th>
-          <th>More</th>
+          <th>New/Repower</th>
+          <th>Details</th>
         </tr>
       </thead>
     `;
@@ -570,7 +577,9 @@
     const eligibleBusesModal = document.createElement('div');
     eligibleBusesModal.id = 'busModal';
     eligibleBusesModal.className = 'modal';
+    const eligibleBusesNotesSection = createHelpNotesSection('eligibleBusesNotes');
 
+    const footer = createFooter();
     const busCalculator = document.getElementById('busCalculator');
     busCalculator.innerHTML = `
       <div class='header' >
@@ -585,17 +594,19 @@
           ${busVoucherSection.outerHTML}
           ${busVoucherSummarySection.outerHTML}
           ${busVoucherNotesSection.outerHTML}
-          ${busVoucherFooter.outerHTML}
+          ${footer.outerHTML}
         </div>
         <div id="fleetwideCaps" class="tabcontent">
           ${fleetCapsSection.outerHTML}
           ${fleetCapsSummarySection.outerHTML}
           ${fleetCapsNotesSection.outerHTML}
-          ${fleetCapsFooter.outerHTML}
+          ${footer.outerHTML}
         </div>
         <div id="eligibleBuses" class="tabcontent">
           ${eligibleBusesTable.outerHTML}
           ${eligibleBusesModal.outerHTML}
+          ${eligibleBusesNotesSection.outerHTML}
+          ${footer.outerHTML}
         </div>
       `;
     const busTabButton = document.getElementById('busVoucherButton');
@@ -761,16 +772,15 @@
        #fleetNotes>div ol {
         padding-left:2em;
        }
-      #busFooter,
-      #fleetFooter {
+      #footer {
         padding:1em;
         text-align:center;
         background-color:${styleConfig.primaryColor};
+        width:100%;
         color:white;
 
       }
-      #busFooter a,
-      #fleetFooter a {
+      #footer a{
         text-decoration:underline;
         color:white;
       }
@@ -797,9 +807,10 @@
       
 
       .modalOpener {
-        color: #5A3A31;
+        color: #023e8a;
         cursor: pointer;
         font-weight: bold;
+        text-decoration: underline;
       }
 
       .modal {
@@ -822,11 +833,12 @@
         display: block;
         empty-cells: show;
         /* Decoration */
-        border-spacing: 0;
-        border: 1px solid;
+      
+      
      }
      #eligibleBuses {
       justify-content: center;
+
       
      }
 .scrollable-table thead {
@@ -834,7 +846,8 @@
     position:relative;
     display: block;
     width:100%;
-    overflow-y: scroll;
+
+
 }
 
 .scrollable-table tbody{
@@ -842,11 +855,12 @@
   display: block; position:relative;
   width:100%; overflow-y:scroll;
   /* Decoration */
-  border-top: 1px solid rgba(0,0,0,0.2);
+  border-top: 2px solid ${styleConfig.primaryColor};
 }
      
 .scrollable-table tr{
   width: 100%;
+  border:0;
   display:flex;
 }
 
@@ -858,23 +872,21 @@
   text-align:left;
 }
 #eligibleBusesTableBody {
-   max-height: 50vh;
+   max-height: 53.5vh;
 }
 
 
       .modal-content {
         position: relative;
-        background-color: #fefefe;
         margin: auto;
         padding: 0;
-        border: 1px solid #888;
         width: 80%;
         max-width: fit-content;
-        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+        background-color: white;
       }
       .modal-header {
-        padding: 4px 16px;
-        background-color: #5cb85c;
+        padding: 8px 16px;
+        background-color: ${styleConfig.primaryColor} !important;
         color: white;
         display:flex;
         justify-content:space-between;
@@ -896,8 +908,8 @@
       }
       
       .modal-footer {
-        padding: 2px 16px;
-        background-color: #5cb85c;
+        padding: 8px 16px;
+        background-color: ${styleConfig.primaryColor} !important;
         color: white;
       }
       
