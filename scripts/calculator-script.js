@@ -793,31 +793,7 @@
       }
       
 
-      .modalOpener {
-        color: #023e8a;
-        cursor: pointer;
-        font-weight: bold;
-        text-decoration: underline;
-      }
 
-      .modal {
-        display: none; /* Hidden by default */
-        position: fixed; /* Stay in place */
-        z-index: 9999; /* Sit on top */
-        padding-top: 50px; /* Location of the box */
-        inset:0;
-        overflow: auto; /* Enable scroll if needed */
-        background-color: rgb(0,0,0); /* Fallback color */
-        background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
-      }
-       .modal-table{
-        width:100%;
-        border-collapse: collapse;
-        border-spacing: 0;
-        border: 1px solid #ddd;
-        margin:0 auto;
-        font-size:1.2em;
-       }
 
      .scrollable-table {
        width:100%;
@@ -859,9 +835,15 @@
   flex-basis:100%;
   flex-grow:2;
   display: block;
-  padding: 1rem;
+  padding: 0.5rem;
   text-align:left;
   border:0;
+}
+.scrollable-table td:nth-child(1) ,.scrollable-table th:nth-child(1),
+.scrollable-table td:nth-child(2) ,.scrollable-table th:nth-child(2),
+.scrollable-table td:nth-child(5) ,.scrollable-table th:nth-child(5),
+.scrollable-table td:last-child ,.scrollable-table th:last-child{
+  flex-basis:60%;
 }
 #eligibleBuses .scrollable-table thead tr th {
   border-block-start:0;
@@ -870,24 +852,13 @@
 #eligibleBusesTableBody {
    max-height: 53.5vh;
 }
-
-
-      .modal-content {
-        position: relative;
-        margin: 0 auto;
-        padding: 0;
-        width: 90%;
-        background-color: white;
+      .modalOpener {
+        color: #023e8a;
+        cursor: pointer;
+        font-weight: bold;
+        text-decoration: underline;
       }
-      .modal-header {
-        padding: 8px 16px;
-        background-color: ${styleConfig.primaryColor} !important;
-        color: white;
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-      }
-      
+
       #closeModalButton {
         color: #DE3C4B;
         font-size: 12px;
@@ -897,18 +868,75 @@
         padding:4px;
         border-radius: 50%;
       }
+
+      .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 9999; /* Sit on top */
+        padding-top: 50px; /* Location of the box */
+        inset:0;
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+      }
+      .modal-content {
+        position: relative;
+        margin: 0 auto;
+        padding: 0;
+        width: 90%;
+        background-color: white;
+      }
+      
+      .modal-header {
+        padding: 8px 16px;
+        background-color: ${styleConfig.primaryColor} !important;
+        color: white;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+      }
+        .modal-header h2 {
+          font-size:1.6em;
+          color:white;
+        }
+      
       .modal-body {
         padding: 2px 16px;
         overflow: auto;
       }
-      
+       .modal-table{
+        width:100%;
+        border-collapse: collapse;
+        border-spacing: 0;
+        border: 1px solid #ddd;
+        margin:0 auto;
+        font-size:1.2em;
+       }
+    
       .modal-footer {
         padding: 8px 16px;
         background-color: ${styleConfig.primaryColor} !important;
         color: white;
       }
-      
-  
+      #busModal .modal-body .modal-table tr{
+        display:flex;
+      }
+      #busModal .modal-body .modal-table td,
+      #busModal .modal-body .modal-table th{
+        flex-basis:50%;
+        padding:0.5em;
+      }
+       #busModal .modal-body .modal-table th{
+        text-align:right;
+       }
+      #busModal .modal-body .modal-table tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+      #busModal .modal-footer h3 {
+        color:white;
+        font-size:1.2em;
+        font-weight:bold;
+      }
       
       @media screen and (min-width: 768px) {
         .tab .tablinks{
