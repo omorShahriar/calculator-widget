@@ -927,6 +927,7 @@
         padding:0.5em;
       }
        #busModal .modal-body .modal-table th{
+        background-color: transparent;
         text-align:right;
        }
       #busModal .modal-body .modal-table tr:nth-child(even) {
