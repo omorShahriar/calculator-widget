@@ -885,6 +885,7 @@
         padding: 0;
         width: 90%;
         background-color: white;
+        max-height: calc(100vh - 100px);
       }
       
       .modal-header {
