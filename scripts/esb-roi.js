@@ -95,66 +95,84 @@
   }
   window.calculateVoucher =
     async function calculateVoucher() {
+      const dieselgas_mpg =
+        document.getElementById("dieselgas_mpg").value;
 
-
-      const iceMPG =
-        document.getElementById("iceMPG").value;
-      const iceFUELCOST = document.getElementById(
-        "iceFUELCOST"
+      const dieselgas_cost = document.getElementById(
+        "dieselgas_cost"
       ).value;
-      const iceMILES =
+      const annual_miles =
         document.getElementById(
-          "iceMILES"
+          "annual_miles"
         ).value;
-      const iceMAINTCOST =
+      const maintenance_cost_mi =
         document.getElementById(
-          "iceMAINTCOST"
+          "maintenance_cost_mi"
         ).value;
-      const electricPRICE =
+      const purchase_price =
         document.getElementById(
-          "electricPRICE"
+          "purchase_price"
         ).value;
-      const electricGRANTS =
+      const grants =
         document.getElementById(
-          "electricGRANTS"
+          "grants"
         ).value;
-      const electricCHCOST =
+      const electricity_cost =
         document.getElementById(
-          "electricCHCOST"
-        ).value;
-
-      const electricLIFE =
-        document.getElementById(
-          "electricLIFE"
+          "electricity_cost"
         ).value;
 
-      const repowerEfficieny =
+      const remaining_vehicle_life =
         document.getElementById(
-          "electricEFFICIENCY"
+          "remaining_vehicle_life"
         ).value;
 
-      const electricMAINTREDUC =
+      const efficiency =
         document.getElementById(
-          "electricMAINTREDUC"
+          "efficiency"
         ).value;
 
-      const electricBATCOST = document.getElementById(
-        "electricBATCOST"
+      const maintenance_reduction =
+        document.getElementById(
+          "maintenance_reduction"
+        ).value;
+
+      const battery_cost = document.getElementById(
+        "battery_cost"
       ).value;
+      // show error if any of the fields are empty
+      if (
+        !dieselgas_mpg ||
+        !dieselgas_cost ||
+        !annual_miles ||
+        !maintenance_cost_mi ||
+        !purchase_price ||
+        !grants ||
+        !electricity_cost ||
+        !remaining_vehicle_life ||
+        !efficiency ||
+        !maintenance_reduction ||
+        !battery_cost
+      ) {
+        alert(
+          "Please fill out all fields"
+        );
+        return;
+      }
 
       // show error if purchase price is not a number
       if (
-        isNaN(iceMPG) ||
-        isNaN(iceFUELCOST) ||
-        isNaN(iceMILES) ||
-        isNaN(iceMAINTCOST) ||
-        isNaN(electricPRICE) ||
-        isNaN(electricGRANTS) ||
-        isNaN(electricCHCOST) ||
-        isNaN(electricLIFE) ||
-        isNaN(repowerEfficieny) ||
-        isNaN(electricMAINTREDUC) ||
-        isNaN(electricBATCOST)
+        isNaN(dieselgas_mpg) ||
+        isNaN(dieselgas_cost) ||
+        isNaN(annual_miles) ||
+        isNaN(maintenance_cost_mi) ||
+        isNaN(purchase_price) ||
+        isNaN(grants) ||
+        isNaN(electricity_cost) ||
+        isNaN(remaining_vehicle_life) ||
+        isNaN(efficiency) ||
+        isNaN(maintenance_reduction) ||
+        isNaN(battery_cost)
       ) {
         alert(
           "Please enter a valid number for Diesel/Gas MPG"
@@ -168,20 +186,21 @@
       let data;
       try {
         const inputs_ice = {
-          "dieselgas_mpg": iceMPG,
-          "dieselgas_cost": iceFUELCOST,
-          "annual_miles": iceMILES,
-          "maintenance_cost_mi": iceMAINTCOST
+          "dieselgas_mpg": dieselgas_mpg,
+          "dieselgas_cost": dieselgas_cost,
+          "annual_miles": annual_miles,
+          "maintenance_cost_mi": maintenance_cost_mi
         }
         const inputs_repower = {
-          "purchase_price": electricPRICE,
-          "grants": electricGRANTS,
-          "electricity_cost": electricCHCOST,
-          "remaining_vehicle_life": electricLIFE,
-          "battery_cost": electricBATCOST,
-          "efficiency": repowerEfficieny,
-          "maintenance_reduction": electricMAINTREDUC
+          "purchase_price": purchase_price,
+          "grants": grants,
+          "electricity_cost": electricity_cost,
+          "remaining_vehicle_life": remaining_vehicle_life,
+          "battery_cost": battery_cost,
+          "efficiency": efficiency,
+          "maintenance_reduction": maintenance_reduction
         }
+
         const link = `https://x8ki-letl-twmt.n7.xano.io/api:oex10dm_/esb-roi-calc`
 
         const response = await fetch(
@@ -223,7 +242,14 @@
       ).innerText = limitFloatPrecision(data.results_fuel.savings_annual);
       document.getElementById(
         "savingFuelCostPercentage"
-      ).innerText = limitFloatPrecision(data.results_fuel.savings_pct);
+      ).innerText = limitFloatPrecision(data.results_fuel.savings_pct) + "%";
+
+      document.getElementById("savingFuelCost").classList.add(data.results_fuel.savings_mi < 0 ? "negativeBg" : "positiveBg");
+      document.getElementById("savingFuelCostAnnual").classList.add(data.results_fuel.savings_annual < 0 ? "negativeBg" : "positiveBg");
+      document.getElementById("savingFuelCostPercentage").classList.add(data.results_fuel.savings_pct < 0 ? "negativeBg" : "positiveBg");
+
+
+
       document.getElementById(
         "dieselGasMaintenanceCost"
       ).innerText = limitFloatPrecision(data.results_maintenance.cost_dieselgas_mi);
@@ -244,19 +270,27 @@
       ).innerText = limitFloatPrecision(data.results_maintenance.savings_annual);
       document.getElementById(
         "savingMaintenanceCostPercentage"
-      ).innerText = limitFloatPrecision(data.results_maintenance.savings_pct);
+      ).innerText = limitFloatPrecision(data.results_maintenance.savings_pct) + "%";
+
+      document.getElementById("savingMaintenanceCost").classList.add(data.results_maintenance.savings_mi < 0 ? "negativeBg" : "positiveBg");
+      document.getElementById("savingMaintenanceCostAnnual").classList.add(data.results_maintenance.savings_annual < 0 ? "negativeBg" : "positiveBg");
+      document.getElementById("savingMaintenanceCostPercentage").classList.add(data.results_maintenance.savings_pct < 0 ? "negativeBg" : "positiveBg");
+
+
+
       document.getElementById(
-        "summaryCOST"
+        "repower_cost"
       ).innerText = limitFloatPrecision(data.results_summary.repower_cost);
       document.getElementById(
-        "summarySAVINGSYR"
+        "savings_annual"
       ).innerText = limitFloatPrecision(data.results_summary.savings_annual);
       document.getElementById(
-        "summarySAVINGSLIFE"
+        "savings_life"
       ).innerText = limitFloatPrecision(data.results_summary.savings_life);
       document.getElementById(
-        "summaryBREAKEVEN"
+        "time_breakeven"
       ).innerText = limitFloatPrecision(data.results_summary.time_breakeven);
+      document.getElementById("time_breakeven").classList.add(!data.results_summary.time_breakeven_positive ? "negativeBg" : "positiveBg");
       button.innerText = "Calculate";
     };
 
@@ -354,10 +388,36 @@
 
       fieldset.appendChild(legend);
 
-      inputElements.forEach((element) => {
+
+      const splitArray = (inputElements) => {
+        const firstArray = inputElements.slice(
+          0,
+          4
+        );
+        const secondArray = inputElements.slice(
+          4,
+          inputElements.length
+        );
+        return [firstArray, secondArray];
+      }
+      const [existingICEInputs, electricRepowerInputs] = splitArray(inputElements);
+      const existingICEInputsHeading = document.createElement("p");
+      existingICEInputsHeading.className = "inputsHeading";
+      existingICEInputsHeading.innerText = `Existing ICE Bus`;
+
+      fieldset.appendChild(existingICEInputsHeading);
+      existingICEInputs.forEach((element) => {
         fieldset.appendChild(element);
       });
 
+      const electricRepowerInputsHeading = document.createElement("p");
+      electricRepowerInputsHeading.className = "inputsHeading";
+      electricRepowerInputsHeading.innerText = `Electric Repower Costs`;
+
+      fieldset.appendChild(electricRepowerInputsHeading);
+      electricRepowerInputs.forEach((element) => {
+        fieldset.appendChild(element);
+      });
       return fieldset;
     };
 
@@ -427,6 +487,7 @@
     busVoucherSection.innerHTML += busCalcButton;
     const inputs =
       document.getElementsByTagName("input");
+
     const finalSummary = document.createElement("div");
     finalSummary.id = "finalSummary";
     fieldData.filter(d => d.field_type === "result").map(
@@ -450,6 +511,7 @@
         <span>?</span>
         <span class="tooltiptext">${d.help_text}</span>
       `;
+
         const innerContainer = document.createElement("div");
         innerContainer.appendChild(dollar);
         innerContainer.appendChild(voucher);
@@ -499,7 +561,7 @@
                 <span class="voucher voucherBus" id="electricFuelCostAnnual">-</span>
               </td>
             </tr>
-            <tr>
+            <tr class="savingsRow">
               <td >Savings</td>
               <td>
                 <span>$</span
@@ -550,7 +612,7 @@
                 >
               </td>
             </tr>
-            <tr>
+            <tr class="savingsRow">
               <td>Savings</td>
               <td>
                 <span>$</span
@@ -685,7 +747,7 @@
         padding: 1em;
         display:flex;
         flex-direction:column;
-        gap:1.5rem;
+        gap:.5rem;
         font-size:1.6em;
       }
       #busCalculator legend {
@@ -988,6 +1050,13 @@
         opacity: 1;
       } 
       
+
+      .inputsHeading{
+        font-size:1.4em;
+        font-weight:bold;
+        color:${styleConfig.primaryColor};
+        padding:10px 0;
+      }
       /* summary table style esb roi */
       .summaryTable {
         border:none;
@@ -998,8 +1067,18 @@
       }
       .summaryTable td {
         padding:4px;
+      } 
+      
+      .summaryTable .savingsRow {
+        font-weight:bold;
       }
 
+      .positiveBg {
+        background-color: #d4edda;
+      }
+      .negativeBg {
+        background-color: #f8d7da;
+      }
 
 
 
