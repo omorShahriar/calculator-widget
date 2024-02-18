@@ -87,6 +87,18 @@
     });
     return keyValuePairs.join('&');
   }
+  function removeCommaFromNumber(input) {
+    if (input.includes(',')) {
+      return input.replace(/,/g, '');
+    }
+    return input;
+  }
+  function formatNumberWithTwoDecimalPlaces(input) {
+    return parseFloat(input).toFixed(2);
+  }
+  function formatNumberWithComma(input) {
+    return parseInt(input).toLocaleString();
+  }
   function limitFloatPrecision(value, precision = 2) {
     if (Number(value) === value && value % 1 !== 0) {
       return parseFloat(value.toFixed(precision));
@@ -97,26 +109,25 @@
     async function calculateVoucher() {
       const dieselgas_mpg =
         document.getElementById("dieselgas_mpg").value;
-
       const dieselgas_cost = document.getElementById(
         "dieselgas_cost"
       ).value;
-      const annual_miles =
-        document.getElementById(
-          "annual_miles"
-        ).value;
+      const annual_miles = removeCommaFromNumber(document.getElementById(
+        "annual_miles"
+      ).value);
+
       const maintenance_cost_mi =
         document.getElementById(
           "maintenance_cost_mi"
         ).value;
-      const purchase_price =
-        document.getElementById(
-          "purchase_price"
-        ).value;
-      const grants =
-        document.getElementById(
-          "grants"
-        ).value;
+      const purchase_price = removeCommaFromNumber(document.getElementById(
+        "purchase_price"
+      ).value);
+
+      const grants = removeCommaFromNumber(document.getElementById(
+        "grants"
+      ).value);
+
       const electricity_cost =
         document.getElementById(
           "electricity_cost"
@@ -137,9 +148,9 @@
           "maintenance_reduction"
         ).value;
 
-      const battery_cost = document.getElementById(
+      const battery_cost = removeCommaFromNumber(document.getElementById(
         "battery_cost"
-      ).value;
+      ).value);
       // show error if any of the fields are empty
       if (
         !dieselgas_mpg ||
@@ -161,21 +172,94 @@
       }
 
       // show error if purchase price is not a number
+
+
       if (
-        isNaN(dieselgas_mpg) ||
-        isNaN(dieselgas_cost) ||
-        isNaN(annual_miles) ||
-        isNaN(maintenance_cost_mi) ||
-        isNaN(purchase_price) ||
-        isNaN(grants) ||
-        isNaN(electricity_cost) ||
-        isNaN(remaining_vehicle_life) ||
-        isNaN(efficiency) ||
-        isNaN(maintenance_reduction) ||
-        isNaN(battery_cost)
+        isNaN(dieselgas_mpg) || dieselgas_mpg <= 0
       ) {
         alert(
-          "Please enter a valid number for Diesel/Gas MPG"
+          "Please enter a valid number greater than 0 for Diesel/Gas MPG"
+        );
+        return;
+      }
+      if (
+        isNaN(dieselgas_cost) || dieselgas_cost <= 0
+      ) {
+        alert(
+          "Please enter a valid number greater than 0 for Diesel/Gas Cost"
+        );
+        return;
+      }
+      if (
+        isNaN(annual_miles) || annual_miles <= 0
+      ) {
+        alert(
+          "Please enter a valid number greater than 0 for Annual Miles"
+        );
+        return;
+      }
+      if (
+        isNaN(maintenance_cost_mi) || maintenance_cost_mi <= 0
+      ) {
+        alert(
+          "Please enter a valid number greater than 0 for Maintenance Cost"
+        );
+        return;
+      }
+      if (
+        isNaN(purchase_price) || purchase_price <= 0
+      ) {
+        alert(
+          "Please enter a valid number greater than 0 for purchase price"
+        );
+        return;
+      }
+      if (
+        isNaN(grants) || grants < 0
+      ) {
+        alert(
+          "Grants can't be negative"
+        );
+        return;
+      }
+      if (
+        isNaN(electricity_cost) || electricity_cost <= 0
+      ) {
+        alert(
+          "Please enter a valid number greater than 0 for electricity cost"
+        );
+        return;
+      }
+      if (
+        isNaN(remaining_vehicle_life) || remaining_vehicle_life <= 0
+      ) {
+        alert(
+          "Please enter a valid number greater than 0 for remaining vehicle life"
+        );
+        return;
+      }
+
+      if (
+        isNaN(battery_cost) || battery_cost < 0
+      ) {
+        alert(
+          "Battery cost should be zero or greater"
+        );
+        return;
+      }
+      if (
+        isNaN(efficiency) || efficiency <= 0
+      ) {
+        alert(
+          "Please enter a valid number greater than 0 for efficiency"
+        );
+        return;
+      }
+      if (
+        isNaN(maintenance_reduction) || maintenance_reduction <= 0
+      ) {
+        alert(
+          "Please enter a valid number greater than 0 for maintainance reduction"
         );
         return;
       }
@@ -224,73 +308,93 @@
       }
       document.getElementById(
         "dieselGasFuelCost"
-      ).innerText = limitFloatPrecision(data.results_fuel.cost_dieselgas_annual);
+      ).innerText = formatNumberWithTwoDecimalPlaces(data.results_fuel.cost_dieselgas_mi);
       document.getElementById(
         "dieselGasFuelCostAnnual"
-      ).innerText = limitFloatPrecision(data.results_fuel.cost_dieselgas_mi);
+      ).innerText = formatNumberWithComma(data.results_fuel.cost_dieselgas_annual);
       document.getElementById(
         "electricFuelCost"
-      ).innerText = limitFloatPrecision(data.results_fuel.cost_electric_mi);
+      ).innerText = formatNumberWithTwoDecimalPlaces(data.results_fuel.cost_electric_mi);
       document.getElementById(
         "electricFuelCostAnnual"
-      ).innerText = limitFloatPrecision(data.results_fuel.cost_electric_annual);
+      ).innerText = formatNumberWithComma(data.results_fuel.cost_electric_annual);
       document.getElementById(
         "savingFuelCost"
-      ).innerText = limitFloatPrecision(data.results_fuel.savings_mi);
+      ).innerText = formatNumberWithTwoDecimalPlaces(data.results_fuel.savings_mi);
       document.getElementById(
         "savingFuelCostAnnual"
-      ).innerText = limitFloatPrecision(data.results_fuel.savings_annual);
+      ).innerText = formatNumberWithComma(data.results_fuel.savings_annual);
       document.getElementById(
         "savingFuelCostPercentage"
       ).innerText = limitFloatPrecision(data.results_fuel.savings_pct) + "%";
 
-      document.getElementById("savingFuelCost").classList.add(data.results_fuel.savings_mi < 0 ? "negativeBg" : "positiveBg");
-      document.getElementById("savingFuelCostAnnual").classList.add(data.results_fuel.savings_annual < 0 ? "negativeBg" : "positiveBg");
-      document.getElementById("savingFuelCostPercentage").classList.add(data.results_fuel.savings_pct < 0 ? "negativeBg" : "positiveBg");
+      const bgToggler = (elementId, checker) => {
+        document.getElementById(elementId).classList.remove(checker > 0 ? "negativeBg" : "positiveBg");
+        document.getElementById(elementId).classList.add(checker < 0 ? "negativeBg" : "positiveBg");
+      }
+      const { savings_mi, savings_annual, savings_pct } = data.results_fuel;
+      bgToggler("savingFuelCost", savings_mi);
+      bgToggler("savingFuelCostAnnual", savings_annual);
+      bgToggler("savingFuelCostPercentage", savings_pct);
 
+
+
+
+      // on each calculation toggle the class between negativeBg and positiveBg
 
 
       document.getElementById(
         "dieselGasMaintenanceCost"
-      ).innerText = limitFloatPrecision(data.results_maintenance.cost_dieselgas_mi);
+      ).innerText = formatNumberWithTwoDecimalPlaces(data.results_maintenance.cost_dieselgas_mi);
       document.getElementById(
         "dieselGasMaintenanceCostAnnual"
-      ).innerText = limitFloatPrecision(data.results_maintenance.cost_dieselgas_annual);
+      ).innerText = formatNumberWithComma(data.results_maintenance.cost_dieselgas_annual);
       document.getElementById(
         "electricMaintenanceCost"
-      ).innerText = limitFloatPrecision(data.results_maintenance.cost_electric_mi);
+      ).innerText = formatNumberWithTwoDecimalPlaces(data.results_maintenance.cost_electric_mi);
       document.getElementById(
         "electricMaintenanceCostAnnual"
-      ).innerText = limitFloatPrecision(data.results_maintenance.cost_electric_annual);
+      ).innerText = formatNumberWithComma(data.results_maintenance.cost_electric_annual);
       document.getElementById(
         "savingMaintenanceCost"
-      ).innerText = limitFloatPrecision(data.results_maintenance.savings_mi);
+      ).innerText = formatNumberWithTwoDecimalPlaces(data.results_maintenance.savings_mi);
       document.getElementById(
         "savingMaintenanceCostAnnual"
-      ).innerText = limitFloatPrecision(data.results_maintenance.savings_annual);
+      ).innerText = formatNumberWithComma(data.results_maintenance.savings_annual);
       document.getElementById(
         "savingMaintenanceCostPercentage"
       ).innerText = limitFloatPrecision(data.results_maintenance.savings_pct) + "%";
 
-      document.getElementById("savingMaintenanceCost").classList.add(data.results_maintenance.savings_mi < 0 ? "negativeBg" : "positiveBg");
-      document.getElementById("savingMaintenanceCostAnnual").classList.add(data.results_maintenance.savings_annual < 0 ? "negativeBg" : "positiveBg");
-      document.getElementById("savingMaintenanceCostPercentage").classList.add(data.results_maintenance.savings_pct < 0 ? "negativeBg" : "positiveBg");
+
+      const { savings_mi: savings_mi_maintenance, savings_annual: savings_annual_maintenance, savings_pct: savings_pct_maintenance } = data.results_maintenance;
+      bgToggler("savingMaintenanceCost", savings_mi_maintenance);
+      bgToggler("savingMaintenanceCostAnnual", savings_annual_maintenance);
+      bgToggler("savingMaintenanceCostPercentage", savings_pct_maintenance);
+
 
 
 
       document.getElementById(
         "repower_cost"
-      ).innerText = limitFloatPrecision(data.results_summary.repower_cost);
+      ).innerText = formatNumberWithComma(data.results_summary.repower_cost);
       document.getElementById(
         "savings_annual"
-      ).innerText = limitFloatPrecision(data.results_summary.savings_annual);
+      ).innerText = formatNumberWithComma(data.results_summary.savings_annual);
       document.getElementById(
         "savings_life"
-      ).innerText = limitFloatPrecision(data.results_summary.savings_life);
+      ).innerText = formatNumberWithComma(data.results_summary.savings_life);
       document.getElementById(
         "time_breakeven"
       ).innerText = limitFloatPrecision(data.results_summary.time_breakeven);
-      document.getElementById("time_breakeven").classList.add(!data.results_summary.time_breakeven_positive ? "negativeBg" : "positiveBg");
+
+
+      const { savings_annual: savings_annual_final, savings_life, } = data.results_summary;
+      bgToggler("savings_annual", savings_annual_final);
+      bgToggler("savings_life", savings_life);
+
+      document.getElementById("time_breakeven").classList.remove(data.results_summary.time_breakeven_positive ? "negativeBg" : "positiveBg"); document.getElementById("time_breakeven").classList.add(!data.results_summary.time_breakeven_positive ? "negativeBg" : "positiveBg");
+
+
       button.innerText = "Calculate";
     };
 
@@ -499,7 +603,7 @@
         label.textContent = d.label;
         const wrapperDiv = document.createElement("div");
         const dollar = document.createElement("span");
-        dollar.textContent = "$";
+        dollar.textContent = d.field_id == "time_breakeven" ? "" : "$";
         const voucher = document.createElement("span");
         voucher.className = "voucher voucherBus";
         voucher.id = d.field_id;
@@ -766,8 +870,9 @@
       #busCalculator select {
         border: 1px solid ${styleConfig.primaryColor};
         border-radius: .8em;
-        padding: 0.5em;
+        padding: 0.25em;
         background:white;
+        max-width:50%;
       }
       #inputs div,
       #inputsFleet div {
@@ -779,6 +884,7 @@
         display:flex;
         gap:0.5em;
         align-items:center;
+        justify-content: flex-end;
 
        }
       #inputs button,
