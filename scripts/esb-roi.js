@@ -556,7 +556,7 @@
       if (id === "busNotes") {
         notesDiv.innerHTML = `
          <div>
-               <em><strong>Disclaimer:</strong>This Calculator is For illustrative purposes only and accuracy is not guaranteed. The figures shown can vary based on your individual situation. NYSBIP rules are always subject to change and this calculator may not reflect that. Please consult an expert before depending on these results</em>
+               <em><strong>Disclaimer:</strong>This Calculator is for illustrative purposes only and accuracy is not guaranteed. Please consult an expert before depending on these results</em>
                  </div>
           `;
       }
@@ -870,7 +870,8 @@
       #busCalculator select {
         border: 1px solid ${styleConfig.primaryColor};
         border-radius: .8em;
-        padding: 0.25em;
+        font-size:0.8em;
+        padding: 0.35em;
         background:white;
         max-width:50%;
       }
@@ -886,6 +887,9 @@
         align-items:center;
         justify-content: flex-end;
 
+       }
+       #inputs div>label{
+        width:max-content;
        }
       #inputs button,
       #inputsFleet button{
@@ -909,10 +913,10 @@
         justify-content:space-between;
         align-items:center;
       }
-      #final-summary{
-        font-size:1.2em;
-        font-weight: medium;
-        margin-top:2em;
+      h2#final-summary{
+        font-size:1.4em;
+        font-weight: bold;
+        margin-top:12px;
         color: ${styleConfig.primaryColor};
       }
       .summary{
