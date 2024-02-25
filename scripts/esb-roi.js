@@ -417,6 +417,7 @@
     try {
       const res = await fetch("https://x8ki-letl-twmt.n7.xano.io/api:oex10dm_/esb-roi-labelsandhelp")
       fieldData = await res.json();
+
     } catch (e) {
       console.log(e);
       alert("Error fetching data. Please check console for more info.")
@@ -460,7 +461,7 @@
       }
       const tooltip =
         document.createElement("div");
-      tooltip.className = "tooltip";
+      tooltip.className = "tooltipEsb";
       tooltip.innerHTML = `
       <span>?</span>
       <span class="tooltiptext">${tooltipText}</span>
@@ -556,7 +557,7 @@
       if (id === "busNotes") {
         notesDiv.innerHTML = `
          <div>
-               <em><strong>Disclaimer:</strong>This Calculator is for illustrative purposes only and accuracy is not guaranteed. Please consult an expert before depending on these results</em>
+               <em><strong>Disclaimer:</strong>${fieldData?.find(d => d.field_id === 'footer').help_text}</em>
                  </div>
           `;
       }
@@ -610,7 +611,7 @@
         voucher.textContent = "-";
 
         const tooltip = document.createElement("div");
-        tooltip.className = "tooltip";
+        tooltip.className = "tooltipEsb";
         tooltip.innerHTML = `
         <span>?</span>
         <span class="tooltiptext">${d.help_text}</span>
@@ -1121,16 +1122,15 @@
         font-weight:bold;
       }
 
-       /* Tooltip container */
-      .tooltip {
+
+      .tooltipEsb {
         position: relative;
         max-width:fit-content;
         
         border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
       }
 
-      /* Tooltip text */
-      .tooltip .tooltiptext {
+      .tooltipEsb .tooltiptext {
         visibility: hidden;
         min-width: 350px;
         max-width: fit-content;
@@ -1139,23 +1139,15 @@
         text-align: center;
         padding: 4px ;
         border-radius: 6px;
-
-        /* Position the tooltip text */
         position: absolute;
         z-index: 1;
         bottom: 125%;
         left: 50%;
         margin-left: -175px;
-
-        /* Fade in tooltip */
         opacity: 0;
         transition: opacity 0.3s;
       }
-
-
-
-      /* Show the tooltip text when you mouse over the tooltip container */
-      .tooltip:hover .tooltiptext {
+      .tooltipEsb:hover .tooltiptext {
         visibility: visible;
         opacity: 1;
       } 
