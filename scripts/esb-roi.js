@@ -555,9 +555,14 @@
         document.createElement("div");
       notesDiv.id = `${id}`;
       if (id === "busNotes") {
+        const disclaimerData = fieldData?.find(d => d.field_id === 'footer');
         notesDiv.innerHTML = `
          <div>
-               <em><strong>Disclaimer:</strong>${fieldData?.find(d => d.field_id === 'footer').help_text}</em>
+             <p>  <em><strong>${disclaimerData.label}</strong></em> 
+             <span>
+             ${disclaimerData.help_text}
+             </span>
+             </p>
                  </div>
           `;
       }
